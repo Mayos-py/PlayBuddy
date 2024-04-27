@@ -22,7 +22,7 @@ class RequestModel {
                 date:String,
                 time:String
                
-            }, { collection: 'requests' }
+            }, { collection: 'requests', versionKey: false }
         );
     }
  

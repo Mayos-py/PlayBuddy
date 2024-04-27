@@ -37,11 +37,28 @@ class App {
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
     });
-    //Get All Requests API endpoint
-    router.get('/app/requests/', async (req, res) =>{
+    //GET All Requests API endpoint
+    router.get('/app/request/', async (req, res) =>{
       console.log('Query list of requests from db');
       await this.Requests.retrieveAllRequests(res);
     });
+
+    //POST Adding a Request API endpoint
+    router.post('/app/request/', async (req, res) => {
+      const id = crypto.randomBytes(16).toString("hex");
+      console.log(req.body);
+        var jsonObj = req.body;
+        jsonObj.listId = id;
+        try {
+          await this.Requests.model.create([jsonObj]);
+          res.send('{"id":"' + id + '"}');
+        }
+        catch (e) {
+          console.error(e);
+          console.log('object creation failed');
+        }
+    });
+
     this.expressApp.use('/', router);
     this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
     this.expressApp.use('/images', express.static(__dirname+'/img'));
