@@ -51,10 +51,9 @@ class App {
       const id = crypto.randomBytes(16).toString("hex");
       console.log(req.body);
         var jsonObj = req.body;
-        jsonObj.listId = id;
         try {
           await this.Requests.model.create([jsonObj]);
-          res.send('{"id":"' + id + '"}');
+          res.send('Player Request Created for ' +jsonObj.userName);
         }
         catch (e) {
           console.error(e);
