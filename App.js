@@ -15,6 +15,7 @@ const bodyParser = require("body-parser");
 const crypto = require("crypto");
 const HubModel_1 = require("./model/HubModel");
 const RequestModel_1 = require("./model/RequestModel");
+const ClubModel_1 = require("./model/ClubModel");
 // Creates and configures an ExpressJS web server.
 class App {
     //Run configuration methods on the Express instance.
@@ -24,6 +25,7 @@ class App {
         this.routes();
         this.Hub = new HubModel_1.HubModel(mongoDBConnection);
         this.Requests = new RequestModel_1.RequestModel(mongoDBConnection);
+        this.Club = new ClubModel_1.ClubModel(mongoDBConnection);
     }
     // Configure Express middleware.
     middleware() {
@@ -63,6 +65,13 @@ class App {
                 console.error(e);
                 console.log('object creation failed');
             }
+        }));
+        //   Get Request to get all the club list based on zip code and sport
+        router.get('/app/club/:zipCode/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var zipCode = req.params.zipCode;
+            var sportName = req.params.sportName;
+            console.log('Query single hub data with sportsName: ' + sportName);
+            yield this.Club.retrieveAllClubs(res, zipCode, sportName);
         }));
         this.expressApp.use('/', router);
         this.expressApp.use('/app/json/', express.static(__dirname + '/app/json'));

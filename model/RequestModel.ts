@@ -16,9 +16,11 @@ class RequestModel {
         this.schema = new Mongoose.Schema(
             {
                 userName: String,
-                playerNeeded: String,
+                playerNeeded: Number,
                 joined :Number,
-                preferedcourt:Number,
+                preferedcourt:String,
+                sportName: String,
+                zipCode: Number,
                 date:String,
                 time:String
                

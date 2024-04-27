@@ -5,6 +5,8 @@ interface IRequestModel extends Mongoose.Document {
     playerNeeded: number;
     joined: number;
     preferredCourt: string;
+    sportName: string;
+    zipCode: number;
     date: string;
     time: string;
 }

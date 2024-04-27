@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RequestModel = void 0;
+exports.ClubModel = void 0;
 const Mongoose = require("mongoose");
-class RequestModel {
+class ClubModel {
     constructor(DB_CONNECTION_STRING) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
@@ -19,57 +19,36 @@ class RequestModel {
     }
     createSchema() {
         this.schema = new Mongoose.Schema({
-            userName: String,
-            playerNeeded: Number,
-            joined: Number,
-            preferedcourt: String,
-            sportName: String,
+            clubName: String,
             zipCode: Number,
-            date: String,
-            time: String
-        }, { collection: 'requests', versionKey: false });
+            sportNames: [{
+                    sport: String
+                }],
+            address: String
+        }, { collection: 'club' });
     }
     createModel() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield Mongoose.connect(this.dbConnectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-                this.model = Mongoose.model("Requests", this.schema);
+                this.model = Mongoose.model("Club", this.schema);
             }
             catch (e) {
                 console.error(e);
             }
         });
     }
-    retrieveAllRequests(response) {
+    retrieveAllClubs(response, zipcode, sportName) {
         return __awaiter(this, void 0, void 0, function* () {
-            var query = this.model.find({});
+            var query = this.model.find({
+                $and: [
+                    { zipCode: zipcode },
+                    { sportNames: { $elemMatch: { sport: sportName } } }
+                ]
+            });
             try {
-                const requests = yield query.exec();
-                response.json(requests);
-            }
-            catch (e) {
-                console.error(e);
-            }
-        });
-    }
-    retrieveRequestByUsername(response, value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var query = this.model.findOne({ userName: value });
-            try {
-                const request = yield query.exec();
-                response.json(request);
-            }
-            catch (e) {
-                console.error(e);
-            }
-        });
-    }
-    retrieveRequestofNewlyAddedRequests(response, value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var query = this.model.find({ userName: value }).sort({ date: -1 });
-            try {
-                const requests = yield query.exec();
-                response.json(requests);
+                const result = yield query.exec();
+                response.json(result);
             }
             catch (e) {
                 console.error(e);
@@ -77,5 +56,5 @@ class RequestModel {
         });
     }
 }
-exports.RequestModel = RequestModel;
-//# sourceMappingURL=RequestModel.js.map
+exports.ClubModel = ClubModel;
+//# sourceMappingURL=ClubModel.js.map
