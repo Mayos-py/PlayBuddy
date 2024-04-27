@@ -47,8 +47,8 @@ class RequestModel {
         }
     }
  
-    public async retrieveRequestByUsername(response: any, userName: string) {
-        var query = this.model.findOne({ _id: userName });
+    public async retrieveRequestByUsername(response: any, value: string) {
+        var query = this.model.findOne({userName:value });
         try {
             const request = await query.exec();
             response.json(request);
@@ -57,19 +57,30 @@ class RequestModel {
             console.error(e);
         }
     }
- 
-    public async retrieveRequestsCount(response: any) {
-        console.log("Retrieving request count...");
-        var query = this.model.estimatedDocumentCount();
+
+    public async retrieveRequestofNewlyAddedRequests(response: any, value: string) {
+        var query = this.model.find({ userName: value }).sort({ date: -1 });
         try {
-            const count = await query.exec();
-            console.log("Number of requests: " + count);
-            response.json(count);
-        }
-        catch (e) {
+            const requests = await query.exec();
+            response.json(requests);
+        } catch (e) {
             console.error(e);
+            response.status(500).json({ error: "Internal server error" });
         }
     }
+
+    // public async retrieveRequestsCount(response: any) {
+    //     console.log("Retrieving request count...");
+    //     var query = this.model.estimatedDocumentCount();
+    //     try {
+    //         const count = await query.exec();
+    //         console.log("Number of requests: " + count);
+    //         response.json(count);
+    //     }
+    //     catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 }
  
 export { RequestModel };
