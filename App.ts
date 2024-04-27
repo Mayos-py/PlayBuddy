@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import {TaskModel} from './model/TaskModel';
 import * as crypto from 'crypto';
 import { HubModel } from './model/HubModel';
 // Creates and configures an ExpressJS web server.
@@ -8,14 +7,12 @@ class App {
   // ref to Express instance
   public expressApp: express.Application;
   public Hub:HubModel
-  public Tasks:TaskModel;
   //Run configuration methods on the Express instance.
   constructor(mongoDBConnection:string)
   {
     this.expressApp = express();
     this.middleware();
     this.routes();
-    this.Tasks = new TaskModel(mongoDBConnection);
     this.Hub = new HubModel(mongoDBConnection)
   }
   // Configure Express middleware.
@@ -36,16 +33,6 @@ class App {
         var name = req.params.sportName
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
-    });
-    router.get('/app/list/:listId/count', async (req, res) =>  {
-        var id = req.params.listId;
-        console.log('Query single list with id: ' + id);
-        await this.Tasks.retrieveTasksCount(res, {listId: id});
-    });
-    router.get('/app/list/:listId/tasks', async (req, res) => {
-        var id = req.params.listId;
-        console.log('Query single list with id: ' + id);
-        await this.Tasks.retrieveTasksDetails(res, {listId: id});
     });
     this.expressApp.use('/', router);
     this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
