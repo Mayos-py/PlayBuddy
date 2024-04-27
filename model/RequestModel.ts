@@ -65,7 +65,6 @@ class RequestModel {
             response.json(requests);
         } catch (e) {
             console.error(e);
-            response.status(500).json({ error: "Internal server error" });
         }
     }
 
