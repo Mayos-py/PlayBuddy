@@ -2,11 +2,13 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as crypto from 'crypto';
 import { HubModel } from './model/HubModel';
+import { RequestModel } from './model/RequestModel';
 // Creates and configures an ExpressJS web server.
 class App {
   // ref to Express instance
   public expressApp: express.Application;
-  public Hub:HubModel
+  public Hub:HubModel;
+  public Requests:RequestModel;
   //Run configuration methods on the Express instance.
   constructor(mongoDBConnection:string)
   {
@@ -14,6 +16,7 @@ class App {
     this.middleware();
     this.routes();
     this.Hub = new HubModel(mongoDBConnection)
+    this.Requests = new RequestModel(mongoDBConnection);
   }
   // Configure Express middleware.
   private middleware(): void {
@@ -34,11 +37,15 @@ class App {
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
     });
+    //Get All Requests API endpoint
+    router.get('/app/requests/', async (req, res) =>{
+      console.log('Query list of requests from db');
+      await this.Requests.retrieveAllRequests(res);
+    });
     this.expressApp.use('/', router);
     this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
     this.expressApp.use('/images', express.static(__dirname+'/img'));
     this.expressApp.use('/', express.static(__dirname+'/pages'));
-    
   }
 }
 export {App};
