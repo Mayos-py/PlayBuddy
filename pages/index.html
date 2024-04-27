@@ -1,94 +1,152 @@
+<!DOCTYPE html>
 <html>
-	<head> 
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-	</head>
-	</head>
-	<body onload="initXHR('home', null)">
-		<div class="container">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <style>
+        .nav.navbar-nav li a {
+            padding: 20px 60px; 
+            text-decoration: none; 
+            color: blue; 
+        }
+    </style>
+</head>
 
-		  <!-- Static navbar -->
-		  <nav class="navbar navbar-default">
-			<div class="container-fluid">
-			  <div class="navbar-header">
-				<a class="navbar-brand" href="javascript:initXHR('home', null)">To Do</a>
-			  </div>
-			  <div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-				  <li><a href="#">Home</a></li>
-				  <li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">List<span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-					  <li><a href="#">Create</a></li>
-					  <li><a href="javascript:initXHR('lists', null)">Active</a></li>
-					  <li><a href="#">Disabled</a></li>
-					</ul>
-				  </li>
-				  <li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Shared<span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-					  <li><a href="#">Active</a></li>
-					  <li><a href="#">Pending</a></li>
-					</ul>
-				  </li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-				  <li><a href="#">Login</a></li>
-				</ul>
-			  </div><!--/.nav-collapse -->
-			</div><!--/.container-fluid -->
-		  </nav>
-		  
-		<div id="home">
-		  <!-- Main component for a primary marketing message or call to action -->
-		  <div class="jumbotron">
-			<h1>To Do List</h1>
-			<p>Keep track of all of things you need to do by creating lists and sharing items with friends.</p>
-			<p>
-			  <a class="btn btn-lg btn-primary" href="javascript:initXHR('lists', null)" role="button">View</a>
-			</p>
-		  </div>
-		</div>
-		
-		<div id="lists" style="display:none;">
-		</div>
+<body>
+    <div class="container-fluid">
+        <!-- Wrap all content inside this div -->
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="javascript:initXHR('home', null)"><b>PlayBuddy</b></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Sports Clubs</a></li>
+                        <li><a href="#">Hub</a></li>
+                        <li><a href="#">Requests</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!--/.container-fluid -->
+        </nav>
 
-		<div id="gList" style="display:none;">
-			<div class="panel panel-default">
-			  <!-- Default panel contents -->
-			  <div class="panel-heading"> 
-				  <h3>List</h3>
-				  <div>
-					<a href="#"><span class="glyphicon glyphicon-edit"></span></a>
-					<a href="#"><span class="glyphicon glyphicon-trash"></span></a>
-					<a href="#"><span class="glyphicon glyphicon-ok"></span></a>
-				  </div>
-			  </div>
-				<!-- Table -->
-				<table class="table" style="font-size:10pt;">
-					<thead>
-						<tr>
-							<th>Items</th>
-							<th width="5%">Shared</th>
-							<th width="5%">Status</th>
-						</tr>
-					</thead>
-					<tbody id='tasks'>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		
-		</div> <!-- /container -->
-	
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<script src="/script.js"></script>
-	</body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group" style="display: flex; align-items: center; width: 100%;">
+                        <!-- Input for Zipcode -->
+                        <input type="text" class="form-control" placeholder="98122" style="width: auto; flex-grow: 1;">
+
+                        <!-- Dropdown for Sports Selection -->
+                        <div class="dropdown" style="margin-left: 60px;">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                                Sports <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Badminton</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Baseball</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Cricket</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Soccer</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Tennis</a></li>
+                                <!-- more sports can be added here -->
+                            </ul>
+                        </div>
+
+                        <!-- Button for Editing Filters -->
+                        <button type="button" class="btn btn-default" style="margin-left: 60px;">
+                            <span class="glyphicon glyphicon-edit"></span> Edit Filters
+                        </button>
+
+                        <!-- Button to Add Request -->
+                        <button type="button" class="btn btn-primary" style="margin-left: 800px;">Add Request</button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <div id="home">
+            <!-- Main component for a primary marketing message or call to action -->
+
+            <div class="container">
+                <!-- Begin To Do List Container -->
+
+                <!-- Begin first item container -->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2">Name: Mayur</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Player Needed: 2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Joined: 0/2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Preferred Court: UREC</div>
+                        </div>
+                        <div class="row">
+                            <br>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Date: 04/07/2024</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Time: 4:00 PM</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Sports: Badminton</div>
+                            <button type="button" class="btn btn-success pull-right btn-join" style="margin-right: 50px; margin-bottom: 30px">Join</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End first item container -->
+
+                <!-- Begin second item container -->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2">Name: Deeksha</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Player Needed: 2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Joined: 2/2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Preferred Court: UREC</div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2">Date: 04/07/2024</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Time: 4:00 PM</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Sports: Tennis</div>
+                            <button type="button" class="btn btn-default pull-right btn-join" style="margin-right: 50px; margin-bottom: 30px">Joined</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End second item container -->
+
+                <!-- Begin third item container -->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2">Name: Prathibha</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Player Needed: 2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Joined: 1/2</div>
+                            <div class="col-xs-12 col-sm-6 col-md-2">Preferred Court: UREC</div>
+                        </div>
+                        <div class="row">
+                            <br>
+                            <div class="col-xs-12 col-sm-8 col-md-2">Date: 04/07/2024</div>
+                            <div class="col-xs-12 col-sm-8 col-md-2">Time: 4:00 PM</div>
+                            <div class="col-xs-12 col-sm-8 col-md-2">Sports: Badminton</div>
+                            <button type="button" class="btn btn-success pull-right btn-join" style="margin-right: 50px; margin-bottom: 30px">Join</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End third item container -->
+            </div>
+        </div>
+    </div>
+    <!-- /container-fluid -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+
 </html>
