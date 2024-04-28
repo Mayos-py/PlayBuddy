@@ -60,6 +60,12 @@ class App {
           console.log('object creation failed');
         }
     });
+     // Get requests by zipcode and sportName API endpoint
+  router.get('/app/request/:zipcode/:sportName', async (req, res) => {
+    const { zipcode, sportName } = req.params;
+    console.log(`Querying requests for zipcode: ${zipcode} and sportName: ${sportName}`);
+    await this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
+  });
 
   //   Get Request to get all the club list based on zip code and sport
     router.get('/app/club/:zipCode/:sportName', async (req, res) =>{
