@@ -70,6 +70,17 @@ class RequestModel {
         }
     }
 
+    public async retrieveRequestsByZipcodeAndSport(response: any, zipcode: number, sportName: string) {
+        var query = this.model.find({ zipCode: zipcode, sportName: sportName });
+        try {
+            const requests = await query.exec();
+            response.json(requests);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+ 
+
     // public async retrieveRequestsCount(response: any) {
     //     console.log("Retrieving request count...");
     //     var query = this.model.estimatedDocumentCount();
