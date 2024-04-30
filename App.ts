@@ -71,7 +71,7 @@ class App {
     router.get('/app/club/:zipCode/:sportName', async (req, res) =>{
       var zipCode = req.params.zipCode
       var sportName = req.params.sportName
-      console.log('Query single hub data with sportsName: ' + sportName);
+      console.log('Query clubs with sportsName and zipcode: ' + sportName);
       await this.Club.retrieveAllClubs(res, zipCode, sportName)
   });
 
