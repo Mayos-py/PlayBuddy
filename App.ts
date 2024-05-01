@@ -48,7 +48,6 @@ class App {
 
     //POST Adding a Request API endpoint
     router.post('/app/request/', async (req, res) => {
-      const id = crypto.randomBytes(16).toString("hex");
       console.log(req.body);
         var jsonObj = req.body;
         try {
