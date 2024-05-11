@@ -13,10 +13,16 @@
     "mongo": "^0.1.0",
     "mongodb": "^4.5.0",
     "mongoose": "^5.13.22",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "assert": "*",
+    "async": "^2.6.4",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0",
+    "q": "^1.5.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node AppServer.js",
     "build": "tsc"
   },

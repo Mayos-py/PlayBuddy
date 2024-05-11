@@ -20,3 +20,17 @@
 
 8. Run the node server
     node AppServer.js
+
+
+For test cases:
+
+   1. npm install
+   2. To run the test:
+        1. For Mac :- node node_modules/mocha/bin/_mocha --reporter spec test/informationHubTest.js (Change the file name for specific test)
+        2. For Windows  :- node node_modules\mocha\bin\_mocha --reporter spec test\informationHubTest.js
+   3. To run all the test cases: 
+        npm test
+        
+    
+
+    
