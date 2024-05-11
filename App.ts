@@ -35,19 +35,19 @@ class App {
   private routes(): void {
     let router = express.Router();
     // http get request for getting hub details based on sport name
-    router.get('/app/hub/:sportName', async (req, res) =>{
+    router.get('/app/hub/sport/:sportName', async (req, res) =>{
         var name = req.params.sportName
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
     });
     //GET All Requests API endpoint
-    router.get('/app/request/', async (req, res) =>{
+    router.get('/app/playerrequest/', async (req, res) =>{
       console.log('Query list of requests from db');
       await this.Requests.retrieveAllRequests(res);
     });
 
     //POST Adding a Request API endpoint
-    router.post('/app/request/', async (req, res) => {
+    router.post('/app/playerrequest/', async (req, res) => {
       console.log(req.body);
         var jsonObj = req.body;
         try {
@@ -60,18 +60,18 @@ class App {
         }
     });
      // Get requests by zipcode and sportName API endpoint
-  router.get('/app/request/:zipcode/:sportName', async (req, res) => {
+  router.get('/app/playerrequest/zipcode/:zipcode/sport/:sportName', async (req, res) => {
     const { zipcode, sportName } = req.params;
     console.log(`Querying requests for zipcode: ${zipcode} and sportName: ${sportName}`);
     await this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
   });
 
   //   Get Request to get all the club list based on zip code and sport
-    router.get('/app/club/:zipCode/:sportName', async (req, res) =>{
+    router.get('/app/club/zipcode/:zipCode/sport/:sportName', async (req, res) =>{
       var zipCode = req.params.zipCode
       var sportName = req.params.sportName
       console.log('Query clubs with sportsName and zipcode: ' + sportName);
-      await this.Club.retrieveAllClubs(res, zipCode, sportName)
+      await this.Club.retrieveFilteredClubs(res, zipCode, sportName)
   });
 
     this.expressApp.use('/', router);

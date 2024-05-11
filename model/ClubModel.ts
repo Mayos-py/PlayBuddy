@@ -35,7 +35,7 @@ class ClubModel {
         }
     }
 
-    public async retrieveAllClubs(response:any, zipcode:number, sportName: string) {
+    public async retrieveFilteredClubs(response:any, zipcode:number, sportName: string) {
         var query = this.model.find({
             $and: [
                 { zipCode: zipcode },

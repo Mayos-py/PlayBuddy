@@ -15,6 +15,7 @@ class RequestModel {
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
+                id: Number,
                 userName: String,
                 playerNeeded: Number,
                 joined :Number,
