@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PopupComponent } from './popup/popup.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InformationHubComponent } from './information-hub/information-hub.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     WelcompageComponent,
     ClubsComponent,
-    PopupComponent
+    PopupComponent,
+    InformationHubComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,40 @@
+<div class="container mat-app-background">
+    <h3 class="panel-heading">Sport Information</h3>
+    
+    <div *ngIf="dataSource.data.length > 0; else noData" class="panel panel-default">
+      <!-- Display Sport Details -->
+      <div>
+        <h4>{{ dataSource.data[0].sportName }}</h4>
+      </div>
+      
+      <div>
+        <h4>History:</h4>
+        <h6>{{ dataSource.data[0].history }}</h6>
+      </div>
+      
+      <div>
+        <h4>Rules:</h4>
+        <ul>
+          <li *ngFor="let rule of dataSource.data[0].rules">
+            {{rule.description}}
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Gear Info:</h4>
+        <ul>
+          <li *ngFor="let gear of dataSource.data[0].gearInfo">
+            {{ gear.gearName }}: {{ gear.gearDescription }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Template for No Data Available -->
+    <ng-template #noData>
+      <p>No information available for the selected sport.</p>
+    </ng-template>
+  
+    <button mat-button (click)="clickEvent()" color="primary">Back</button>  
+  </div>
+  
