@@ -1,0 +1,29 @@
+<div class="container  mat-app-background">
+    
+    <h3 class="panel-heading">Clubs Lists</h3>
+    
+    <div class="panel panel-default">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">  
+          <ng-container matColumnDef="clubName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>clubName</th>
+            <td mat-cell *matCellDef="let element"> {{element.clubName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="zipCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>zipCode</th>
+            <td mat-cell *matCellDef="let element"> {{element.zipCode}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="address">s
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>address</th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
+    
+        </table>
+    </div>
+    <button mat-button (click)="clickEvent()" color="primary">Back</button>  
+    
+    </div> <!-- /container -->  

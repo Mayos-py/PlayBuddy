@@ -13,7 +13,7 @@ describe('Test Request list result', function () {
 		 
     before(function (done) {
         chai.request("http://localhost:8080")
-			.get("/app/request")
+			.get("/app/playerrequest")
 			.end(function (err, res) {
 				requestResult = res.body;
 				response = res;

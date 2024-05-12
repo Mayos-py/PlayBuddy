@@ -14,7 +14,7 @@ describe('Test Hub result', function () {
 		 
     before(function (done) {
         chai.request("http://localhost:8080")
-			.get("/app/hub/" + sportName)
+			.get("/app/hub/sport/" + sportName)
 			.end(function (err, res) {
 				requestResult = res.body;
 				response = res;
