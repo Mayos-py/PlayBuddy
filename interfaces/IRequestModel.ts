@@ -1,7 +1,7 @@
 import Mongoose = require("mongoose");
 
 interface IRequestModel extends Mongoose.Document {
-    id: number;
+    reqId: string;
     userName: string;
     playerNeeded: number;
     joined: number;

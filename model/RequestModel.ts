@@ -15,7 +15,7 @@ class RequestModel {
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
-                id: Number,
+                reqId: String,
                 userName: String,
                 playerNeeded: Number,
                 joined :Number,
@@ -60,7 +60,16 @@ class RequestModel {
             console.error(e);
         }
     }
-
+    public async retrieveRequestById(response: any, value: string) {
+        var query = this.model.findOne({reqId:value });
+        try {
+            const playerrequest = await query.exec();
+            response.json(playerrequest);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
     public async retrieveRequestofNewlyAddedRequests(response: any, value: string) {
         var query = this.model.find({ userName: value }).sort({ date: -1 });
         try {
@@ -70,7 +79,6 @@ class RequestModel {
             console.error(e);
         }
     }
-
     public async retrieveRequestsByZipcodeAndSport(response: any, zipcode: number, sportName: string) {
         var query = this.model.find({ zipCode: zipcode, sportName: sportName });
         try {
@@ -81,7 +89,6 @@ class RequestModel {
         }
     }
  
-
     // public async retrieveRequestsCount(response: any) {
     //     console.log("Retrieving request count...");
     //     var query = this.model.estimatedDocumentCount();
@@ -97,4 +104,3 @@ class RequestModel {
 }
  
 export { RequestModel };
- 
