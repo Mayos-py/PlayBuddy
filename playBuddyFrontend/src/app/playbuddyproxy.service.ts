@@ -10,8 +10,8 @@ export class PlaybuddyproxyService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getListsIndex() {
-    return this.httpClient.get<any[]>( this.hostUrl + 'app/club/zipcode/98122/sport/BasketBall');
+  getFilteredClubs(zipCode: number | null, sportName: string | null) {
+    return this.httpClient.get<any[]>( this.hostUrl + `app/club/zipcode/${zipCode}/sport/${sportName}`);
   }
 
 }

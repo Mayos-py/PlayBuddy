@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcompage',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './welcompage.component.css'
 })
 export class WelcompageComponent {
+  constructor(private router: Router) { }
 
+  navigateToPopup(fromRoute: string) {
+    this.router.navigate(['/popup', { fromRoute }]);
+  }
 }

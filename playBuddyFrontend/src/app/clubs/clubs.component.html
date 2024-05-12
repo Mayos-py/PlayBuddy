@@ -1,3 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <span class="nav-link">Zip Code: {{ zipCode }}</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link">Sport: {{ sportName }}</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="navigateToPopup('clubs')">
+              <i class="fas fa-edit"></i> 
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
 <div class="container  mat-app-background">
     
     <h3 class="panel-heading">Clubs Lists</h3>
@@ -14,7 +34,7 @@
             <td mat-cell *matCellDef="let element"> {{element.zipCode}} </td>
           </ng-container>
     
-          <ng-container matColumnDef="address">s
+          <ng-container matColumnDef="address">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>address</th>
             <td mat-cell *matCellDef="let element"> {{element.address}} </td>
           </ng-container>

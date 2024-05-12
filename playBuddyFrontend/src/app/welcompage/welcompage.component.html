@@ -1,12 +1,12 @@
 <div class="jb-body position-relative p-5 text-center text-muted border border-dashed rounded-5">
-	<div class="jumbotron">
-		<h1>Your own play Buddy</h1>
-		<p>Your friends are busy, You wanna play sports? We are here for you!!!</p>
-		<p>
-			<a [routerLink]="['/clubs']" class="btn btn-lg bt-body" role="button">Clubs</a>
-		</p>
-        <p>
-			<a [routerLink]="['/list']" class="btn btn-lg bt-body" role="button">Information Hub</a>
-		</p>
-	</div>
-</div>
+    <div class="jumbotron">
+      <h1>Your own play Buddy</h1>
+      <p>Your friends are busy, You wanna play sports? We are here for you!!!</p>
+      <p>
+        <a (click)="navigateToPopup('clubs')" class="btn btn-lg bt-body" role="button">Clubs</a>
+      </p>
+      <p>
+        <a [routerLink]="['/list']" class="btn btn-lg bt-body" role="button">Information Hub</a>
+      </p>
+    </div>
+  </div>
