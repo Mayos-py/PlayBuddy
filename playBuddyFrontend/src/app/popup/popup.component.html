@@ -1,7 +1,7 @@
 <div class="popup-container">
     <h2>Enter Details</h2>
     <form (ngSubmit)="onSubmit()">
-      <div>
+      <div *ngIf="fromRoute !== 'hub'">
         <label for="zipCode">Zip Code:</label>
         <input type="text" id="zipCode" [(ngModel)]="zipCode" name="zipCode" required>
       </div>

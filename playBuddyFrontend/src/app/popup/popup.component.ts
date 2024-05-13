@@ -36,7 +36,14 @@ export class PopupComponent {
         }
       };
       this.router.navigate(['/player-request'], navigationExtras);
-    }  
+    } else if (this.fromRoute === 'hub') {
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          sportName: this.sportName
+        }
+      };
+      this.router.navigate(['/hub'], navigationExtras);
+    } 
   }
 
   goBack(){

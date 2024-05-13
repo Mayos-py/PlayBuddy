@@ -16,8 +16,6 @@ export class PlayerRequestComponent implements OnInit {
   zipCode: number | null = null;
   sportName: string | null = null;
 
-  
-
   ngOnInit(): void {
   }
 
