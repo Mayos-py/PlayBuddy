@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class PlayerRequestComponent implements OnInit {
   
-  displayedColumns: string[] = [ 'userName', 'playerNeeded', 'joined', 'preferredCourt', 'sportName', 'zipCode', 'date', 'time'];
+  displayedColumns: string[] = [ 'userName', 'playerNeeded', 'joined', 'preferredCourt', 'sportName', 'zipCode', 'date', 'time', 'action'];
   dataSource = new MatTableDataSource<any>();
   zipCode: number | null = null;
   sportName: string | null = null;
@@ -42,5 +42,9 @@ export class PlayerRequestComponent implements OnInit {
 
   navigateToPopup(fromRoute: string) {
     this.router.navigate(['/popup', { fromRoute }]);
+  }
+
+  joinRequest(request: any) {
+    // You can add your join functionality here
   }
 }

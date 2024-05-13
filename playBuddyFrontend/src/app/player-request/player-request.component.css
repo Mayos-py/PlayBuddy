@@ -67,3 +67,24 @@
   button {
     margin-top: 1rem;
   }
+
+/* Style for the action column */
+.mat-column-action {
+  display: flex;
+  justify-content: center;
+}
+
+/* Style for the Join button */
+.join-button {
+  background-color: green;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for the Join button when hovered */
+.join-button:hover {
+  background-color: darkgreen;
+}
