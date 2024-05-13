@@ -20,6 +20,7 @@ export class AddRequestComponent {
     console.log(formData);
     this.$proxy.addPlayerRequest(formData).subscribe((response) => {
       console.log('Post Request Successful', response);
+      this.router.navigate(['\popup']);
     });
   }
 
