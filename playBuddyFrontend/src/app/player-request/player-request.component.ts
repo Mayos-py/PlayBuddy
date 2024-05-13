@@ -44,6 +44,10 @@ export class PlayerRequestComponent implements OnInit {
     this.router.navigate(['/popup', { fromRoute }]);
   }
 
+  navigateToRequestForm(fromRoute: string) {
+    this.router.navigate(['/add-request', { fromRoute }]);
+  }
+
   joinRequest(request: any) {
     // You can add your join functionality here
   }

@@ -20,5 +20,9 @@ export class PlaybuddyproxyService {
   getSpecificSportsInfo(sportName: string | null): Observable<any[]> {
     return this.httpClient.get<any[]>(this.hostUrl + `app/hub/sport/${sportName}`);
   }
+  addPlayerRequest(formData: JSON): Observable<any[]> {
+    return this.httpClient.post<any[]>(this.hostUrl + `app/playerrequest`, formData);
+  }
+  
 
 }

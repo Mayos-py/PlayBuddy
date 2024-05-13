@@ -1,0 +1,41 @@
+<div class="container">
+    <h2 class="heading">Player Request Form</h2>
+    <form (ngSubmit)="submitForm(playerRequestForm.value)" #playerRequestForm="ngForm">
+
+        <div class = "form-group">
+            <label for="userName">Username</label>
+            <input type="text" id="userName" name="userName" class="form-control" required ngModel>
+        </div>
+
+        <div class = "form-group">
+            <label for="zipCode">Zipcode</label>
+            <input type="text" id="zipCode" name="zipCode" class="form-control" required ngModel>
+        </div>
+
+        <div class = "form-group">
+            <label for="playerNeeded">Player Needed</label>
+            <input type="number" id="playerneeded" name="playerneeded" class="form-control" required ngModel>
+            <!--<div *ngIf="playerRequestForm.controls.name?.touched && playerRequestForm.controls.name?.invalid" class="text-danger">
+                Player Needed count is required.
+            </div>-->
+        </div>
+    
+        <div class = "form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" class="form-control" required ngModel>
+        </div>
+    
+        <div class = "form-group">
+        <label for="time">Time</label>
+        <input type="time" id="time" name="time" class="form-control" required ngModel>
+        </div>
+    
+        <div class = "form-group">
+        <label for="preferredCourt">Preferred Court</label>
+        <input type="text" id="preferredCourt" name="preferredCourt" class="form-control" required ngModel>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Submit</button>&nbsp; 
+        <button  (click)="cancelForm()" class="btn btn-secondary" role="button">Cancel</button>
+    </form>
+</div>
