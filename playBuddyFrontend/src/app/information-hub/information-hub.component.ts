@@ -14,29 +14,18 @@ export class InformationHubComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['sportName', 'history', 'rules', 'gearInfo'];
   dataSource = new MatTableDataSource<any>();
   private subscriptions = new Subscription();
+  sportName: string | null = null;
 
   constructor(private router: Router, private proxyService: PlaybuddyproxyService, private route: ActivatedRoute) {}
 
-  // ngOnInit(): void {
-  //   this.subscriptions.add(
-  //     this.proxyService.getAllSportsInfo().subscribe({
-  //       next: (data) => {
-  //         this.dataSource.data = [data]; 
-  //         console.log("Retrieved data from server:", data);
-  //       },
-  //       error: (error) => console.error('Error fetching sports data:', error)
-  //     })
-  //   );
-  // }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const sportName = params['sportName'];
-      console.log('Sport Name:', sportName);
+      this.sportName = params['sportName'];
+      console.log('Sport Name:', this.sportName);
   
       // Call the proxy service method with the sportName
       this.subscriptions.add(
-        this.proxyService.getSpecificSportsInfo(sportName).subscribe({
+        this.proxyService.getSpecificSportsInfo(this.sportName).subscribe({
           next: (data) => {
             this.dataSource.data = [data];
             console.log("Retrieved data from server:", data);
@@ -53,5 +42,9 @@ export class InformationHubComponent implements OnInit, OnDestroy {
 
   clickEvent(): void {
     this.router.navigate(['']);
+  }
+
+  navigateToPopup(fromRoute: string) {
+    this.router.navigate(['/popup', { fromRoute }]);
   }
 }
