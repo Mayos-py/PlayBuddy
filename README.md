@@ -31,6 +31,14 @@ For test cases:
    3. To run all the test cases: 
         npm test
         
+For Front End:
+ 
+    1. Download angular cli -  npm install -g @angular/cli -force
+    2. Change the directory to playBuddyFrontend
+    2. To create component - ng g component <componentName>
+        4 files would be created.
+     3. To run the project - ng serve
+ 
     
 
     

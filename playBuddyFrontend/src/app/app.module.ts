@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcompageComponent } from './welcompage/welcompage.component';
 import { ClubsComponent } from './clubs/clubs.component';
+import { PlayerRequestComponent } from './player-request/player-request.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -30,7 +31,8 @@ import { InformationHubComponent } from './information-hub/information-hub.compo
     WelcompageComponent,
     ClubsComponent,
     PopupComponent,
-    InformationHubComponent
+    InformationHubComponent,
+    PlayerRequestComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,9 @@ export class PlaybuddyproxyService {
   getFilteredClubs(zipCode: number | null, sportName: string | null) {
     return this.httpClient.get<any[]>( this.hostUrl + `app/club/zipcode/${zipCode}/sport/${sportName}`);
   }
+  getPlayerRequests(){
+    return this.httpClient.get<any[]>(`${this.hostUrl}app/playerrequest/zipcode/98122/sport/Badminton`);
+  }
 
   getAllSportsInfo(): Observable<any[]> {
     return this.httpClient.get<any[]>(this.hostUrl + 'app/hub/sport/Badminton');
