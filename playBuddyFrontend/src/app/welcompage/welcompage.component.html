@@ -9,7 +9,7 @@
         <a [routerLink]="['/hub']" class="btn btn-lg bt-body" role="button">Information Hub</a>
       </p>
       <p>
-        <a [routerLink]="['/player-request']" class="btn btn-lg bt-body" role="button">Player Request</a>
+        <a (click)="navigateToPopup('playerRequest')" class="btn btn-lg bt-body" role="button">Player Request</a>
       </p>
     </div>
   </div>

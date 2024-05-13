@@ -41,6 +41,19 @@ requestsCollection.insert(
      time: "11:00:00" 
 }
 )
+requestsCollection.insert(
+    {
+         reqId: "f4e114eb4ca9e55187c07671adf9e968",
+         userName: "Pratibha",
+         playerNeeded: 3,
+         joined: 2,
+         preferredCourt: "UREC",
+         sportName: "Cricket",
+         zipCode: 98121,
+         date: "04-28-2024",
+         time: "11:00:00" 
+    }
+    )
 db.createCollection('hub')
 hubCollection = db.getCollection("hub")
 hubCollection.remove({})

@@ -20,9 +20,6 @@ export class PopupComponent {
   }
 
   onSubmit() {
-    console.log('Zip Code:', this.zipCode);
-    console.log('Sport Name:', this.sportName);
-
     if (this.fromRoute === 'clubs') {
       const navigationExtras: NavigationExtras = {
         queryParams: {
@@ -31,7 +28,15 @@ export class PopupComponent {
         }
       };
       this.router.navigate(['/clubs'], navigationExtras);
-    } 
+    } else if (this.fromRoute === 'playerRequest') {
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          zipCode: this.zipCode,
+          sportName: this.sportName
+        }
+      };
+      this.router.navigate(['/player-request'], navigationExtras);
+    }  
   }
 
   goBack(){
