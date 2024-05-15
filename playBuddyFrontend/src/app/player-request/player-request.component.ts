@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaybuddyproxyService } from '../playbuddyproxy.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-player-request',
@@ -45,7 +45,14 @@ export class PlayerRequestComponent implements OnInit {
   }
 
   navigateToRequestForm(fromRoute: string) {
-    this.router.navigate(['/add-request', { fromRoute }]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        zipCode: this.zipCode,
+        sportName: this.sportName
+      }
+    };
+    this.router.navigate(['/add-request'], navigationExtras);
+    //this.router.navigate(['/add-request', { queryParams: { zipCode: this.zipCode, sportName: this.sportName }, queryParamsHandling: 'merge' }]);
   }
 
   joinRequest(request: any) {

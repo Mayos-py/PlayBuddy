@@ -44,6 +44,15 @@ export class PopupComponent {
       };
       this.router.navigate(['/hub'], navigationExtras);
     } 
+    else if (this.fromRoute === 'add-request') {
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          zipCode: this.zipCode,
+          sportName: this.sportName
+        }
+      };
+      this.router.navigate(['/add-request'], navigationExtras);
+    } 
   }
 
   goBack(){

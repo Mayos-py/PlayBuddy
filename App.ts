@@ -59,7 +59,8 @@ class App {
         jsonObj.reqId = id;
         try {
           await this.Requests.model.create([jsonObj]);
-          res.send('Player Request Created for ' +jsonObj.userName);
+          //res.send('Player Request Created for ' +jsonObj.userName);
+          res.send(jsonObj);
         }
         catch (e) {
           console.error(e);
