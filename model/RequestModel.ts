@@ -19,7 +19,7 @@ class RequestModel {
                 userName: String,
                 playerNeeded: Number,
                 joined :Number,
-                preferedcourt:String,
+                preferredCourt:String,
                 sportName: String,
                 zipCode: Number,
                 date:String,
