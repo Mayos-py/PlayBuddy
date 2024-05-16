@@ -23,7 +23,6 @@ export class InformationHubComponent implements OnInit, OnDestroy {
       this.sportName = params['sportName'];
       console.log('Sport Name:', this.sportName);
   
-      // Call the proxy service method with the sportName
       this.subscriptions.add(
         this.proxyService.getSpecificSportsInfo(this.sportName).subscribe({
           next: (data) => {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +16,10 @@ export class PlaybuddyproxyService {
   getFilteredPlayerRequests(zipCode: number | null, sportName: string | null){
     return this.httpClient.get<any[]>( this.hostUrl + `app/playerrequest/zipcode/${zipCode}/sport/${sportName}`);
   }
-  getSpecificSportsInfo(sportName: string | null): Observable<any[]> {
+  getSpecificSportsInfo(sportName: string | null){
     return this.httpClient.get<any[]>(this.hostUrl + `app/hub/sport/${sportName}`);
   }
-  addPlayerRequest(formData: JSON): Observable<any[]> {
+  addPlayerRequest(formData: JSON){
     return this.httpClient.post<any[]>(this.hostUrl + `app/playerrequest`, formData);
   }
   

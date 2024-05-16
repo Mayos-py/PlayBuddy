@@ -25,17 +25,17 @@
     <div class="panel panel-default">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">  
           <ng-container matColumnDef="clubName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>clubName</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Club Name</th>
             <td mat-cell *matCellDef="let element"> {{element.clubName}} </td>
           </ng-container>
       
           <ng-container matColumnDef="zipCode">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>zipCode</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Zip Code</th>
             <td mat-cell *matCellDef="let element"> {{element.zipCode}} </td>
           </ng-container>
     
           <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>address</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
             <td mat-cell *matCellDef="let element"> {{element.address}} </td>
           </ng-container>
     
