@@ -12,8 +12,15 @@ export class AddRequestComponent {
 
   zipCode: number | null = null;
   sportName: string | null = null;
+  minDate: string;
 
   constructor( private router: Router, private $proxy: PlaybuddyproxyService, private route: ActivatedRoute) {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const yyyy = today.getFullYear();
+    this.minDate = yyyy + '-' + mm + '-' + dd;
+
     this.route.queryParams.subscribe(params => {
       this.zipCode = params['zipCode'] ? Number(params['zipCode']) : null;
       this.sportName = params['sportName'];
