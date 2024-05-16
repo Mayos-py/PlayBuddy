@@ -2,15 +2,14 @@
     <h2>Enter Details</h2>
     <form (ngSubmit)="onSubmit()">
       <div *ngIf="fromRoute !== 'hub'">
-        <label for="zipCode">Zip Code:</label>
-        <input type="text" id="zipCode" [(ngModel)]="zipCode" name="zipCode" required>
+        <input type="text" id="zipCode" placeholder="Zip Code" [(ngModel)]="zipCode" name="zipCode" required>
       </div>
       <div>
-        <label for="sportName">Sport Name:</label>
-        <input type="text" id="sportName" [(ngModel)]="sportName" name="sportName" required>
+        <input type="text" id="sportName" placeholder="Sport Name" [(ngModel)]="sportName" name="sportName" required>
       </div>
+      <div>
       <button class="btn btn-lg bt-body" type="submit">Submit</button>
-      <br>
       <button  (click)="goBack()" class="btn btn-lg bt-body" style="color: orange;" role="button">Cancel</button>
+    </div>
     </form>
   </div>

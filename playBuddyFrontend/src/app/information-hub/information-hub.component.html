@@ -6,7 +6,7 @@
             <span class="nav-link">Sport: {{ sportName }}</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="navigateToPopup('hub')">
+            <a class="nav-link" (click)="navigateToPopup('hub', sportName)">
               <i class="fas fa-edit"></i> 
             </a>
           </li>
@@ -18,12 +18,7 @@
   <div class="container mat-app-background">
       <h3 class="panel-heading">Sport Information</h3>
       
-      <div *ngIf="dataSource.data.length > 0; else noData" class="panel panel-default">
-        <!-- Display Sport Details -->
-        <div>
-          <h4>{{ dataSource.data[0].sportName }}</h4>
-        </div>
-        
+      <div *ngIf="dataSource.data.length > 0; else noData" class="panel panel-default">      
         <div>
           <h4>History:</h4>
           <ul>
@@ -49,7 +44,6 @@
         </div>
       </div>
     
-      <!-- Template for No Data Available -->
       <ng-template #noData>
         <p>No information available for the selected sport.</p>
       </ng-template>

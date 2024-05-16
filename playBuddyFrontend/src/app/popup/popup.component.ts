@@ -7,15 +7,15 @@ import { Router , ActivatedRoute, NavigationExtras} from '@angular/router';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent {
-  zipCode!: string;
-  sportName!: string;
+  zipCode: string = '';
+  sportName: string = '';
   fromRoute: string = '';
-
   constructor(private router: Router, private route: ActivatedRoute) { }
-
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.fromRoute = params.get('fromRoute') || '';
+      this.zipCode = params.get('zipcode') || '';
+      this.sportName = params.get('sportName') || '';
     });
   }
 

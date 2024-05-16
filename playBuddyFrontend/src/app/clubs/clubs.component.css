@@ -1,6 +1,5 @@
-/* clubs.component.css */
 
-/* Navbar styles */
+
 .navbar {
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -28,7 +27,6 @@
     align-items: center;
   }
   
-  /* Container styles */
   .container {
     margin-top: 2rem;
   }
@@ -45,7 +43,6 @@
     padding: 1rem;
   }
   
-  /* Table styles */
   table {
     width: 100%;
   }
@@ -63,7 +60,6 @@
     border-bottom: 1px solid #ddd;
   }
   
-  /* Button styles */
   button {
     margin-top: 1rem;
   }

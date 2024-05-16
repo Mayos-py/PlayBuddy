@@ -25,14 +25,13 @@ export class AddRequestComponent {
   }
 
   submitForm(formData: any) {
-    console.log(formData);
+    let formDataJson = typeof formData === 'string' ? JSON.parse(formData) : { ...formData };
+    formDataJson.joined = 0;
+    formDataJson.zipCode = this.zipCode;
+    formDataJson.sportName = this.sportName;
+    console.log(formDataJson)
     
-    //Need to add correct logic to append zipCode and sportName here 
-    /*formData.append('zipCode', JSON.stringify(this.zipCode));
-    formData.append('sportName', JSON.stringify(this.sportName));
-    formData.append('playerNeeded', 0))*/
-    
-    this.$proxy.addPlayerRequest(formData).subscribe((response) => {
+    this.$proxy.addPlayerRequest(formDataJson).subscribe((response) => {
       console.log('Post Request Successful', response);
       const navigationExtras: NavigationExtras = {
         queryParams: {

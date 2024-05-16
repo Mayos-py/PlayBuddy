@@ -28,7 +28,6 @@ export class PlayerRequestComponent implements OnInit {
       console.log('Zip Code:', this.zipCode);
       console.log('Sport Name:', this.sportName);
 
-      // Call the getListsIndex method with zipCode and sportName
       this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
         this.dataSource = new MatTableDataSource<any>(result);
         console.log('retrieved data from server.');
@@ -40,8 +39,8 @@ export class PlayerRequestComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  navigateToPopup(fromRoute: string) {
-    this.router.navigate(['/popup', { fromRoute }]);
+  navigateToPopup(fromRoute: string, zipcode: number | null, sportName: string | null) {
+    this.router.navigate(['/popup', { fromRoute, zipcode, sportName }]);
   }
 
   navigateToRequestForm(fromRoute: string) {
@@ -52,10 +51,9 @@ export class PlayerRequestComponent implements OnInit {
       }
     };
     this.router.navigate(['/add-request'], navigationExtras);
-    //this.router.navigate(['/add-request', { queryParams: { zipCode: this.zipCode, sportName: this.sportName }, queryParamsHandling: 'merge' }]);
   }
 
   joinRequest(request: any) {
-    // You can add your join functionality here
+    // join functionality here
   }
 }

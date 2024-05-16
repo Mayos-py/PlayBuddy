@@ -9,7 +9,7 @@
             <span class="nav-link">Sport: {{ sportName }}</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="navigateToPopup('clubs')">
+            <a class="nav-link" (click)="navigateToPopup('clubs', zipCode, sportName)">
               <i class="fas fa-edit"></i> 
             </a>
           </li>
@@ -46,4 +46,4 @@
     </div>
     <button mat-button (click)="clickEvent()" color="primary">Back</button>  
     
-    </div> <!-- /container -->  
+    </div> 

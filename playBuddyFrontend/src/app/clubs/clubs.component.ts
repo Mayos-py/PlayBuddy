@@ -27,7 +27,6 @@ export class ClubsComponent {
       console.log('Zip Code:', this.zipCode);
       console.log('Sport Name:', this.sportName);
 
-      // Call the getListsIndex method with zipCode and sportName
       this.proxy$.getFilteredClubs(this.zipCode, this.sportName).subscribe((result: any[]) => {
         this.dataSource = new MatTableDataSource<any>(result);
         console.log('retrieved data from server.');
@@ -42,7 +41,7 @@ export class ClubsComponent {
     this.router.navigate(['']);
   }
 
-  navigateToPopup(fromRoute: string) {
-    this.router.navigate(['/popup', { fromRoute }]);
+  navigateToPopup(fromRoute: string, zipcode: number | null, sportName: string | null) {
+    this.router.navigate(['/popup', { fromRoute, zipcode, sportName }]);
   }
 }

@@ -9,20 +9,17 @@
 
         <div class = "form-group">
             <label for="sportName">sportName</label>
-            <input type="text" id="sportName" name="sportName" class="form-control" required ngModel>
+            <input type="text" id="sportName" name="sportName" class="form-control"  [(ngModel)]="sportName" required ngModel>
         </div>
 
         <div class = "form-group">
             <label for="zipCode">Zipcode</label>
-            <input type="text" id="zipCode" name="zipCode" class="form-control" required ngModel>
+            <input type="text" id="zipCode" name="zipCode" class="form-control" [(ngModel)]="zipCode" required ngModel>
         </div>
 
         <div class = "form-group">
             <label for="playerNeeded">Player Needed</label>
             <input type="number" id="playerNeeded" name="playerNeeded" class="form-control" required ngModel>
-            <!--<div *ngIf="playerRequestForm.controls.name?.touched && playerRequestForm.controls.name?.invalid" class="text-danger">
-                Player Needed count is required.
-            </div>-->
         </div>
     
         <div class = "form-group">

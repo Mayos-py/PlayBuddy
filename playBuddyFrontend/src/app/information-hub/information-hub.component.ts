@@ -44,7 +44,7 @@ export class InformationHubComponent implements OnInit, OnDestroy {
     this.router.navigate(['']);
   }
 
-  navigateToPopup(fromRoute: string) {
-    this.router.navigate(['/popup', { fromRoute }]);
+  navigateToPopup(fromRoute: string, sportName: string | null) {
+    this.router.navigate(['/popup', { fromRoute, sportName }]);
   }
 }
