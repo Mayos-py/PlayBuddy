@@ -1,4 +1,4 @@
 
-/node_modules
-/db
-/.DS_Store
+playBuddyBackend/node_modules
+playBuddyBackend/db
+playBuddyBackend/.DS_Store
