@@ -41,36 +41,50 @@ class App {
     routes() {
         let router = express.Router();
         // http get request for getting hub details based on sport name
-        router.get('/app/hub/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/app/hub/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
             var name = req.params.sportName;
             console.log('Query single hub data with sportsName: ' + name);
             yield this.Hub.retrieveHub(res, name);
         }));
         //GET All Requests API endpoint
-        router.get('/app/request/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/app/playerrequest/', (req, res) => __awaiter(this, void 0, void 0, function* () {
             console.log('Query list of requests from db');
             yield this.Requests.retrieveAllRequests(res);
         }));
+        //GET Request with ReqId API endpoint
+        router.get('/app/playerrequest/:reqId', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var id = req.params.reqId;
+            console.log('Query single list with id: ' + id);
+            yield this.Requests.retrieveRequestById(res, id);
+        }));
         //POST Adding a Request API endpoint
-        router.post('/app/request/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.post('/app/playerrequest/', (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = crypto.randomBytes(16).toString("hex");
             console.log(req.body);
             var jsonObj = req.body;
+            jsonObj.reqId = id;
             try {
                 yield this.Requests.model.create([jsonObj]);
-                res.send('Player Request Created for ' + jsonObj.userName);
+                //res.send('Player Request Created for ' +jsonObj.userName);
+                res.send(jsonObj);
             }
             catch (e) {
                 console.error(e);
                 console.log('object creation failed');
             }
         }));
+        // Get requests by zipcode and sportName API endpoint
+        router.get('/app/playerrequest/zipcode/:zipcode/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { zipcode, sportName } = req.params;
+            console.log(`Querying requests for zipcode: ${zipcode} and sportName: ${sportName}`);
+            yield this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
+        }));
         //   Get Request to get all the club list based on zip code and sport
-        router.get('/app/club/:zipCode/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/app/club/zipcode/:zipCode/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
             var zipCode = req.params.zipCode;
             var sportName = req.params.sportName;
-            console.log('Query single hub data with sportsName: ' + sportName);
-            yield this.Club.retrieveAllClubs(res, zipCode, sportName);
+            console.log('Query clubs with sportsName and zipcode: ' + sportName);
+            yield this.Club.retrieveFilteredClubs(res, zipCode, sportName);
         }));
         this.expressApp.use('/', router);
         this.expressApp.use('/app/json/', express.static(__dirname + '/app/json'));

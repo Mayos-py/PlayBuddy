@@ -38,7 +38,7 @@ class ClubModel {
             }
         });
     }
-    retrieveAllClubs(response, zipcode, sportName) {
+    retrieveFilteredClubs(response, zipcode, sportName) {
         return __awaiter(this, void 0, void 0, function* () {
             var query = this.model.find({
                 $and: [
