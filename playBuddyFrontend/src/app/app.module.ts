@@ -11,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { PlaybuddyproxyService } from './playbuddyproxy.service';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
