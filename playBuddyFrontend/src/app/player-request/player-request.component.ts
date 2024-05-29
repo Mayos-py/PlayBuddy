@@ -8,16 +8,15 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
   templateUrl: './player-request.component.html',
   styleUrls: ['./player-request.component.css']
 })
-
 export class PlayerRequestComponent implements OnInit {
-  
-  displayedColumns: string[] = [ 'userName', 'playerNeeded', 'joined', 'preferredCourt', 'sportName', 'zipCode', 'date', 'time', 'action'];
-  dataSource = new MatTableDataSource<any>();
+
+  otherDisplayedColumns: string[] = ['userName', 'playerNeeded', 'joined', 'preferredCourt', 'date', 'time', 'action'];
+  myDisplayedColumns: string[] = ['playerNeeded', 'joined', 'preferredCourt', 'date', 'time', 'action'];
+  otherRequestsDataSource = new MatTableDataSource<any>();
+  ownRequestsDataSource = new MatTableDataSource<any>();
   zipCode: number | null = null;
   sportName: string | null = null;
-
-  ngOnInit(): void {
-  }
+  userName: string | null = 'currentUser';  // Replace with actual logic to get the current user's username
 
   constructor(
     private router: Router, private proxy$: PlaybuddyproxyService, private route: ActivatedRoute
@@ -29,10 +28,16 @@ export class PlayerRequestComponent implements OnInit {
       console.log('Sport Name:', this.sportName);
 
       this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
-        this.dataSource = new MatTableDataSource<any>(result);
+        const otherRequests = result.filter(request => request.userName !== this.userName);
+        const ownRequests = result.filter(request => request.userName === this.userName);
+        this.otherRequestsDataSource = new MatTableDataSource<any>(otherRequests);
+        this.ownRequestsDataSource = new MatTableDataSource<any>(ownRequests);
         console.log('retrieved data from server.');
       });
     });
+  }
+
+  ngOnInit(): void {
   }
 
   clickEvent(): void {
@@ -55,5 +60,12 @@ export class PlayerRequestComponent implements OnInit {
 
   joinRequest(request: any) {
     // join functionality here
+    // After joining, update the button to "Chat"
+    request.joined = true;
+  }
+
+  startChat(request: any) {
+    // navigate to chat page with request details
+    console.log('Starting chat with:', request.userName);
   }
 }

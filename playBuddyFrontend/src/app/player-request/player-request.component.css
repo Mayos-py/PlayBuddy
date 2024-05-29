@@ -77,3 +77,6 @@ button {
 .join-button:hover {
   background-color: darkgreen;
 }
+.panel-container {
+  margin-bottom: 20px; 
+}
