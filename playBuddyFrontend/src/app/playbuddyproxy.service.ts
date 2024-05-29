@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlaybuddyproxyService {
 
-  hostUrl:string = 'http://localhost:8080/';
+  hostUrl:string = '';
 
   constructor(private httpClient: HttpClient) { }
 
