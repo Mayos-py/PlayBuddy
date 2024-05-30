@@ -10,19 +10,25 @@ export class PopupComponent {
   zipCode: string = '';
   sportName: string = '';
   fromRoute: string = '';
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      const state = navigation.extras.state as { [key: string]: any };
+      this.fromRoute = state['fromRoute'] || '';
+      this.zipCode = state['zipcode'] !== undefined ? state['zipcode'] : null;
+      this.sportName = state['sportName'] || '';
+      console.log('From Route:', this.fromRoute);
+      console.log('Zip Code:', this.zipCode);
+      console.log('Sport Name:', this.sportName);
+    }
+  }
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.fromRoute = params.get('fromRoute') || '';
-      this.zipCode = params.get('zipcode') || '';
-      this.sportName = params.get('sportName') || '';
-    });
   }
 
   onSubmit() {
     if (this.fromRoute === 'clubs') {
       const navigationExtras: NavigationExtras = {
-        queryParams: {
+        state: {
           zipCode: this.zipCode,
           sportName: this.sportName
         }
@@ -30,7 +36,7 @@ export class PopupComponent {
       this.router.navigate(['/clubs'], navigationExtras);
     } else if (this.fromRoute === 'playerRequest') {
       const navigationExtras: NavigationExtras = {
-        queryParams: {
+        state: {
           zipCode: this.zipCode,
           sportName: this.sportName
         }
@@ -38,20 +44,11 @@ export class PopupComponent {
       this.router.navigate(['/player-request'], navigationExtras);
     } else if (this.fromRoute === 'hub') {
       const navigationExtras: NavigationExtras = {
-        queryParams: {
+        state: {
           sportName: this.sportName
         }
       };
       this.router.navigate(['/hub'], navigationExtras);
-    } 
-    else if (this.fromRoute === 'add-request') {
-      const navigationExtras: NavigationExtras = {
-        queryParams: {
-          zipCode: this.zipCode,
-          sportName: this.sportName
-        }
-      };
-      this.router.navigate(['/add-request'], navigationExtras);
     } 
   }
 

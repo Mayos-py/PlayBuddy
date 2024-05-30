@@ -20,13 +20,13 @@ export class AddRequestComponent {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
     const yyyy = today.getFullYear();
     this.minDate = yyyy + '-' + mm + '-' + dd;
-
-    this.route.queryParams.subscribe(params => {
-      this.zipCode = params['zipCode'] ? Number(params['zipCode']) : null;
-      this.sportName = params['sportName'];
-      console.log('Zip Code:', this.zipCode);
-      console.log('Sport Name:', this.sportName);
-  }); }
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      const state = navigation.extras.state as { [key: string]: any };
+      this.zipCode = state['zipCode'] ? Number(state['zipCode']) : null;
+      this.sportName = state['sportName'];
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -41,7 +41,7 @@ export class AddRequestComponent {
     this.$proxy.addPlayerRequest(formDataJson).subscribe((response) => {
       console.log('Post Request Successful', response);
       const navigationExtras: NavigationExtras = {
-        queryParams: {
+        state: {
           zipCode: this.zipCode,
           sportName: this.sportName
         }
@@ -50,13 +50,15 @@ export class AddRequestComponent {
     });
   }
 
-  navigateToPopup(fromRoute: string) {
-    this.router.navigate(['/popup', { fromRoute }]);
-  }
-
   cancelForm() {
     console.log("Form canceled!");
-    this.router.navigate(['']);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        zipCode: this.zipCode,
+        sportName: this.sportName
+      }
+    };
+    this.router.navigate(['/player-request'], navigationExtras);
   }
   
 }

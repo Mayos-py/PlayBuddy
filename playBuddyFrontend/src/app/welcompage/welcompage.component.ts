@@ -10,6 +10,8 @@ export class WelcompageComponent {
   constructor(private router: Router) { }
 
   navigateToPopup(fromRoute: string) {
-    this.router.navigate(['/popup', { fromRoute }]);
+    this.router.navigate(['/popup'], {
+      state: { fromRoute }
+    });
   }
 }

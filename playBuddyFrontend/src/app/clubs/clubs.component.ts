@@ -21,17 +21,16 @@ export class ClubsComponent {
   constructor(
     private router: Router, private proxy$: PlaybuddyproxyService, private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.zipCode = params['zipCode'] ? Number(params['zipCode']) : null;
-      this.sportName = params['sportName'];
-      console.log('Zip Code:', this.zipCode);
-      console.log('Sport Name:', this.sportName);
-
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      const state = navigation.extras.state as { [key: string]: any };
+      this.zipCode = state['zipCode'] ? Number(state['zipCode']) : null;
+      this.sportName = state['sportName'];
       this.proxy$.getFilteredClubs(this.zipCode, this.sportName).subscribe((result: any[]) => {
         this.dataSource = new MatTableDataSource<any>(result);
-        console.log('retrieved data from server.');
+        console.log('Retrieved data from server.');
       });
-    });
+    }
   }
 
   ngOnInit() {
@@ -42,6 +41,8 @@ export class ClubsComponent {
   }
 
   navigateToPopup(fromRoute: string, zipcode: number | null, sportName: string | null) {
-    this.router.navigate(['/popup', { fromRoute, zipcode, sportName }]);
+    this.router.navigate(['/popup'], {
+      state: { fromRoute, zipcode, sportName }
+    });
   }
 }

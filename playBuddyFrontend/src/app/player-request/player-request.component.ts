@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlaybuddyproxyService } from '../playbuddyproxy.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-request',
@@ -17,24 +18,29 @@ export class PlayerRequestComponent implements OnInit {
   zipCode: number | null = null;
   sportName: string | null = null;
   userName: string | null = 'currentUser';  // Replace with actual logic to get the current user's username
+  subscriptions = new Subscription();
 
   constructor(
-    private router: Router, private proxy$: PlaybuddyproxyService, private route: ActivatedRoute
+    private router: Router,
+    private proxy$: PlaybuddyproxyService,
+    private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.zipCode = params['zipCode'] ? Number(params['zipCode']) : null;
-      this.sportName = params['sportName'];
-      console.log('Zip Code:', this.zipCode);
-      console.log('Sport Name:', this.sportName);
-
-      this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
-        const otherRequests = result.filter(request => request.userName !== this.userName);
-        const ownRequests = result.filter(request => request.userName === this.userName);
-        this.otherRequestsDataSource = new MatTableDataSource<any>(otherRequests);
-        this.ownRequestsDataSource = new MatTableDataSource<any>(ownRequests);
-        console.log('retrieved data from server.');
-      });
-    });
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      const state = navigation.extras.state as { [key: string]: any };
+      this.zipCode = state['zipCode'] ? Number(state['zipCode']) : null;
+      this.sportName = state['sportName'];
+      
+      this.subscriptions.add(
+        this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
+          const otherRequests = result.filter(request => request.userName !== this.userName);
+          const ownRequests = result.filter(request => request.userName === this.userName);
+          this.otherRequestsDataSource = new MatTableDataSource<any>(otherRequests);
+          this.ownRequestsDataSource = new MatTableDataSource<any>(ownRequests);
+          console.log('Retrieved data from server.');
+        })
+      );
+    }
   }
 
   ngOnInit(): void {
@@ -45,12 +51,14 @@ export class PlayerRequestComponent implements OnInit {
   }
 
   navigateToPopup(fromRoute: string, zipcode: number | null, sportName: string | null) {
-    this.router.navigate(['/popup', { fromRoute, zipcode, sportName }]);
+    this.router.navigate(['/popup'], {
+      state: { fromRoute, zipcode, sportName }
+    });
   }
 
-  navigateToRequestForm(fromRoute: string) {
+  navigateToRequestForm() {
     const navigationExtras: NavigationExtras = {
-      queryParams: {
+      state: {
         zipCode: this.zipCode,
         sportName: this.sportName
       }
