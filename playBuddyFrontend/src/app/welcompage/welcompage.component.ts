@@ -14,4 +14,8 @@ export class WelcompageComponent {
       state: { fromRoute }
     });
   }
+
+  navigateToLoginPopup() {
+    this.router.navigate(['/login']);
+  }
 }

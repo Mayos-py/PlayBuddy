@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InformationHubComponent } from './information-hub/information-hub.component';
 import { AddRequestComponent } from './add-request/add-request.component';
+import { LoginPopupComponent } from './login-popup/login-popup.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AddRequestComponent } from './add-request/add-request.component';
     PopupComponent,
     InformationHubComponent,
     PlayerRequestComponent,
-    AddRequestComponent
+    AddRequestComponent,
+    LoginPopupComponent
   ],
   imports: [
     BrowserModule,

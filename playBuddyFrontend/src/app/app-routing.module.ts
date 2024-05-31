@@ -6,6 +6,7 @@ import { PopupComponent } from './popup/popup.component';
 import { InformationHubComponent } from './information-hub/information-hub.component';
 import { PlayerRequestComponent } from './player-request/player-request.component';
 import { AddRequestComponent } from './add-request/add-request.component';
+import { LoginPopupComponent } from './login-popup/login-popup.component';
 
 const routes: Routes = [
   { path: '', component:  WelcompageComponent},
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path: 'popup', component: PopupComponent },
   { path: 'hub', component: InformationHubComponent},
   { path: 'player-request', component: PlayerRequestComponent},
-  { path: 'add-request', component: AddRequestComponent}
+  { path: 'add-request', component: AddRequestComponent},
+  { path: 'login', component: LoginPopupComponent}
+  
 ];
 
 @NgModule({
