@@ -16,8 +16,7 @@ class UserModel {
         this.schema = new Mongoose.Schema(
             {
                 ssoID: {type: String, required: true, unique: true},
-                email: String,
-                address: String,
+                username: String
             }, {collection: 'user'}
         );    
     }
@@ -25,7 +24,7 @@ class UserModel {
     public async createModel() {
         try {
             await Mongoose.connect(this.dbConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
-            this.model = Mongoose.model<IUserModel>("Club", this.schema);
+            this.model = Mongoose.model<IUserModel>("User", this.schema);
         }
         catch (e) {
             console.error(e);

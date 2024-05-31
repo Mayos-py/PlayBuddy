@@ -4,6 +4,7 @@ import * as crypto from 'crypto';
 import { HubModel } from './model/HubModel';
 import { RequestModel } from './model/RequestModel';
 import { ClubModel } from './model/ClubModel';
+import { UserModel } from './model/UserModel';
 import GooglePassportObj from './GooglePassport';
 import * as passport from 'passport';
 import * as session from 'express-session';
@@ -25,6 +26,7 @@ class App {
   public Hub:HubModel;
   public Requests:RequestModel;
   public Club:ClubModel;
+  public User:UserModel;
   public googlePassportObj:GooglePassportObj;
   
 
@@ -38,6 +40,7 @@ class App {
     this.Hub = new HubModel(mongoDBConnection)
     this.Requests = new RequestModel(mongoDBConnection);
     this.Club = new ClubModel(mongoDBConnection);
+    this.User = new UserModel(mongoDBConnection);
   }
 
   // Configure Express middleware.
@@ -77,25 +80,41 @@ class App {
       passport.authenticate('google', 
         { failureRedirect: '/' }
       ),
-      (req, res) => {
+      async (req, res) => {
         //const user = JSON.stringify(req.user);
         //console.log("User ID:", user.id);
         //console.log("User DisplayName:", user.displayName);
 
+        var jsonObj = {
+          ssoID: req.user.id,
+          username: req.user.displayName
+        };
+      
+        try {
+          console.log("here")
+          console.log(jsonObj)
+          await this.User.model.create([jsonObj]);
+          //res.send('Player Request Created for ' +jsonObj.userName);
+          res.redirect('/#/');
+        }
+        catch (e) {
+          console.error(e);
+          console.log('object creation failed');
+        }
         console.log("successfully authenticated user and returned to callback page.");
         console.log("redirecting to /#/");
         console.log("Response", res.json);
-        res.redirect('/#/');
+        
       }
     );
 
     router.get('/app/user/info', this.validateAuth, (req, res) => {
       console.log('Query All list');
       console.log('request',req);
-      console.log("user info:" + JSON.stringify(req));
+      console.log("user info:" + JSON.stringify(req.user));
       //console.log("user info:" + JSON.stringify(req.body.user.id));
       //console.log("user info:" + JSON.stringify(req.body.user.displayName));
-      res.json({"username" : req.body.user.displayName, "id" : req.body.user.id});
+      res.json({"username" : req.user.displayName, "id" : req.user.id});
     });
   
 

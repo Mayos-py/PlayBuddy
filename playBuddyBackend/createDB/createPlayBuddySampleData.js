@@ -512,14 +512,5 @@ clubsCollection.insert(
         address: 'South Street'
     }
 )
-b.createCollection('user')
-requestsCollection = db.getCollection("user")
-requestsCollection.remove({})
-requestsCollection.insert(
-{
-      userName: "MayurAhirrao",
-      email: "mayurahirrao3@gmail.com",
-      ssoID: "",
-      address: "1122 NE 55th St"
-}
-)
+db.createCollection('user')
+userCollection = db.getCollection("user")
