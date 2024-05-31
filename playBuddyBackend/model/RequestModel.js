@@ -20,6 +20,7 @@ class RequestModel {
     createSchema() {
         this.schema = new Mongoose.Schema({
             reqId: String,
+            ssoID: String,
             userName: String,
             playerNeeded: Number,
             joined: Number,

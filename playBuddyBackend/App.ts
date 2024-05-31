@@ -142,6 +142,7 @@ class App {
       console.log(req.body);
         var jsonObj = req.body;
         jsonObj.reqId = id;
+        jsonObj.ssoID = req.user.id;
         try {
           await this.Requests.model.create([jsonObj]);
           //res.send('Player Request Created for ' +jsonObj.userName);
