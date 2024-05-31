@@ -4,6 +4,20 @@ import * as crypto from 'crypto';
 import { HubModel } from './model/HubModel';
 import { RequestModel } from './model/RequestModel';
 import { ClubModel } from './model/ClubModel';
+import GooglePassportObj from './GooglePassport';
+import * as passport from 'passport';
+import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
+
+declare global {
+  namespace Express {
+    interface User {
+      id: string,
+      displayName: string,
+    }
+  }
+}
+
 // Creates and configures an ExpressJS web server.
 class App {
   // ref to Express instance
@@ -11,9 +25,13 @@ class App {
   public Hub:HubModel;
   public Requests:RequestModel;
   public Club:ClubModel;
+  public googlePassportObj:GooglePassportObj;
+  
+
   //Run configuration methods on the Express instance.
   constructor(mongoDBConnection:string)
   {
+    this.googlePassportObj = new GooglePassportObj();
     this.expressApp = express();
     this.middleware();
     this.routes();
@@ -21,6 +39,7 @@ class App {
     this.Requests = new RequestModel(mongoDBConnection);
     this.Club = new ClubModel(mongoDBConnection);
   }
+
   // Configure Express middleware.
   private middleware(): void {
     this.expressApp.use(bodyParser.json());
@@ -30,29 +49,75 @@ class App {
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();
     });
+    this.expressApp.use(session({ secret: 'keyboard cat' }));
+    this.expressApp.use(cookieParser());
+    this.expressApp.use(passport.initialize());
+    this.expressApp.use(passport.session());
   }
+
+  private validateAuth(req, res, next):void {
+    if (req.isAuthenticated()) { 
+      console.log("user is authenticated"); 
+      console.log(JSON.stringify(req.user));
+      return next(); }
+    console.log("user is not authenticated");
+    res.redirect('/');
+  }
+
   // Configure API endpoints.
   private routes(): void {
     let router = express.Router();
+    let response ;
+
+    router.get('/auth/google', 
+    passport.authenticate('google', {scope: ['profile']}));
+    console.log("api hit");
+
+    router.get('/auth/google/callback', 
+      passport.authenticate('google', 
+        { failureRedirect: '/' }
+      ),
+      (req, res) => {
+        //const user = JSON.stringify(req.user);
+        //console.log("User ID:", user.id);
+        //console.log("User DisplayName:", user.displayName);
+
+        console.log("successfully authenticated user and returned to callback page.");
+        console.log("redirecting to /#/");
+        console.log("Response", res.json);
+        res.redirect('/#/');
+      }
+    );
+
+    router.get('/app/user/info', this.validateAuth, (req, res) => {
+      console.log('Query All list');
+      console.log('request',req);
+      console.log("user info:" + JSON.stringify(req));
+      //console.log("user info:" + JSON.stringify(req.body.user.id));
+      //console.log("user info:" + JSON.stringify(req.body.user.displayName));
+      res.json({"username" : req.body.user.displayName, "id" : req.body.user.id});
+    });
+  
+
     // http get request for getting hub details based on sport name
-    router.get('/app/hub/sport/:sportName', async (req, res) =>{
+    router.get('/app/hub/sport/:sportName',this.validateAuth, async (req, res) =>{
         var name = req.params.sportName
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
     });
     //GET All Requests API endpoint
-    router.get('/app/playerrequest/', async (req, res) =>{
-      console.log('Query list of requests from db');
+    router.get('/app/playerrequest/', this.validateAuth, async (req, res) =>{
+      console.log('Query list of player requests from db');
       await this.Requests.retrieveAllRequests(res);
     });
     //GET Request with ReqId API endpoint
-    router.get('/app/playerrequest/:reqId', async (req, res) =>{
+    router.get('/app/playerrequest/:reqId',this.validateAuth, async (req, res) =>{
       var id = req.params.reqId;
-      console.log('Query single list with id: ' + id);
+      console.log('Query single playerrequest with id: ' + id);
       await this.Requests.retrieveRequestById(res, id);
     });
     //POST Adding a Request API endpoint
-    router.post('/app/playerrequest/', async (req, res) => {
+    router.post('/app/playerrequest/', this.validateAuth, async (req, res) => {
       const id = crypto.randomBytes(16).toString("hex");
       console.log(req.body);
         var jsonObj = req.body;
@@ -68,18 +133,20 @@ class App {
         }
     });
      // Get requests by zipcode and sportName API endpoint
-  router.get('/app/playerrequest/zipcode/:zipcode/sport/:sportName', async (req, res) => {
+  router.get('/app/playerrequest/zipcode/:zipcode/sport/:sportName', this.validateAuth, async (req, res) => {
     const { zipcode, sportName } = req.params;
     console.log(`Querying requests for zipcode: ${zipcode} and sportName: ${sportName}`);
     await this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
   });
   //   Get Request to get all the club list based on zip code and sport
-    router.get('/app/club/zipcode/:zipCode/sport/:sportName', async (req, res) =>{
+    router.get('/app/club/zipcode/:zipCode/sport/:sportName', this.validateAuth, async (req, res) =>{
       var zipCode = req.params.zipCode
       var sportName = req.params.sportName
       console.log('Query clubs with sportsName and zipcode: ' + sportName);
+      console.log('validate', this.validateAuth);
       await this.Club.retrieveFilteredClubs(res, zipCode, sportName)
   });
+    
     this.expressApp.use('/', router);
     this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
     this.expressApp.use('/images', express.static(__dirname+'/img'));
