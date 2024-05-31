@@ -93,7 +93,8 @@ class App {
         try {
           console.log("here")
           console.log(jsonObj)
-          await this.User.model.create([jsonObj]);
+          if(!this.User.retrieveUser(jsonObj.ssoID))
+            await this.User.model.create([jsonObj]);
           //res.send('Player Request Created for ' +jsonObj.userName);
           res.redirect('/#/');
         }
@@ -119,7 +120,7 @@ class App {
   
 
     // http get request for getting hub details based on sport name
-    router.get('/app/hub/sport/:sportName',this.validateAuth, async (req, res) =>{
+    router.get('/app/hub/sport/:sportName', async (req, res) =>{
         var name = req.params.sportName
         console.log('Query single hub data with sportsName: ' + name);
         await this.Hub.retrieveHub(res, name)
@@ -158,7 +159,7 @@ class App {
     await this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
   });
   //   Get Request to get all the club list based on zip code and sport
-    router.get('/app/club/zipcode/:zipCode/sport/:sportName', this.validateAuth, async (req, res) =>{
+    router.get('/app/club/zipcode/:zipCode/sport/:sportName', async (req, res) =>{
       var zipCode = req.params.zipCode
       var sportName = req.params.sportName
       console.log('Query clubs with sportsName and zipcode: ' + sportName);

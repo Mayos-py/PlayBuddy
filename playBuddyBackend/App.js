@@ -74,7 +74,8 @@ class App {
             try {
                 console.log("here");
                 console.log(jsonObj);
-                yield this.User.model.create([jsonObj]);
+                if (!this.User.retrieveUser(jsonObj.ssoID))
+                    yield this.User.model.create([jsonObj]);
                 //res.send('Player Request Created for ' +jsonObj.userName);
                 res.redirect('/#/');
             }
@@ -95,7 +96,7 @@ class App {
             res.json({ "username": req.user.displayName, "id": req.user.id });
         });
         // http get request for getting hub details based on sport name
-        router.get('/app/hub/sport/:sportName', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/app/hub/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
             var name = req.params.sportName;
             console.log('Query single hub data with sportsName: ' + name);
             yield this.Hub.retrieveHub(res, name);
@@ -134,7 +135,7 @@ class App {
             yield this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
         }));
         //   Get Request to get all the club list based on zip code and sport
-        router.get('/app/club/zipcode/:zipCode/sport/:sportName', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/app/club/zipcode/:zipCode/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
             var zipCode = req.params.zipCode;
             var sportName = req.params.sportName;
             console.log('Query clubs with sportsName and zipcode: ' + sportName);

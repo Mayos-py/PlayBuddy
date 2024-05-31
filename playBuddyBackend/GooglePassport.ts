@@ -29,7 +29,8 @@ class GooglePassport {
                     console.log("userId:" + profile.id);
                     console.log("displayName: " + profile.displayName);
                     console.log("retrieve all of the profile info needed");
-                    // this.email = profile.emails[0].value;
+                    //console.log("emailll,"+profile.email);
+                    //this.email = profile.emails[0].value;
                     return done(null, profile);
                 }); 
             }
