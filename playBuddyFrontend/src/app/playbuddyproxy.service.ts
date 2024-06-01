@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlaybuddyproxyService {
 
-  hostUrl:string = '';
+  hostUrl:string = 'http://localhost:8080/';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,6 +21,9 @@ export class PlaybuddyproxyService {
   }
   addPlayerRequest(formData: JSON){
     return this.httpClient.post<any[]>(this.hostUrl + `app/playerrequest`, formData);
+  }
+  getUserInfo(){
+    return this.httpClient.get<any>(this.hostUrl + `app/user/info`);
   }
   
 

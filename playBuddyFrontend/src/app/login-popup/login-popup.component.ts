@@ -14,6 +14,6 @@ export class LoginPopupComponent {
   }
 
   authGoogle(){
-    window.location.href = 'https://play-buddies.azurewebsites.net/auth/google';
+    window.location.href = 'http://localhost:8080/auth/google';
   }
 }

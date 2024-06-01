@@ -83,13 +83,13 @@ class App {
             console.log("redirecting to /#/");
             console.log("Response", res.json);
         }));
-        router.get('/app/user/info', this.validateAuth, (req, res) => {
-            console.log('Query All list');
-            console.log('request', req);
-            console.log("user info:" + JSON.stringify(req.user));
-            //console.log("user info:" + JSON.stringify(req.body.user.id));
-            //console.log("user info:" + JSON.stringify(req.body.user.displayName));
-            res.json({ "username": req.user.displayName, "id": req.user.id });
+        router.get('/app/user/info', (req, res) => {
+            if (req.user) {
+                res.json({ "username": req.user.displayName, "id": req.user.id });
+            }
+            else {
+                res.json({ "error": "No user information available" });
+            }
         });
         // http get request for getting hub details based on sport name
         router.get('/app/hub/sport/:sportName', (req, res) => __awaiter(this, void 0, void 0, function* () {
