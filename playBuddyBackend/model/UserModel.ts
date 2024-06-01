@@ -31,17 +31,13 @@ class UserModel {
         }
     }
 
-    public async retrieveUser(ssoID: string): Promise<boolean> {
+    public async checkUserExists(value: string): Promise<boolean> {
         try {
-            const result = await this.model.findOne({ ssoID }).exec();
-            if (result) {
-                return true;
-            } else {
-                return false;
-            }
+            const result = await this.model.findOne({ ssoID: value }).exec();
+            return result !== null;
         } catch (e) {
             console.error(e);
-            return false; // Depending on your requirements, you might want to handle this differently.
+            throw new Error('Internal server error');
         }
     }
     

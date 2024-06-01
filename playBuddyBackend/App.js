@@ -64,19 +64,15 @@ class App {
         router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
         console.log("api hit");
         router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
-            //const user = JSON.stringify(req.user);
-            //console.log("User ID:", user.id);
-            //console.log("User DisplayName:", user.displayName);
-            var jsonObj = {
-                ssoID: req.user.id,
-                username: req.user.displayName
-            };
             try {
-                console.log("here");
-                console.log(jsonObj);
-                if (!this.User.retrieveUser(jsonObj.ssoID))
+                const found = yield this.User.checkUserExists(req.user.id);
+                if (!found) {
+                    var jsonObj = {
+                        ssoID: req.user.id,
+                        username: req.user.displayName
+                    };
                     yield this.User.model.create([jsonObj]);
-                //res.send('Player Request Created for ' +jsonObj.userName);
+                }
                 res.redirect('/#/popup');
             }
             catch (e) {

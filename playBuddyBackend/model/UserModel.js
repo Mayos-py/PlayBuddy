@@ -34,20 +34,15 @@ class UserModel {
             }
         });
     }
-    retrieveUser(ssoID) {
+    checkUserExists(value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.model.findOne({ ssoID }).exec();
-                if (result) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                const result = yield this.model.findOne({ ssoID: value }).exec();
+                return result !== null;
             }
             catch (e) {
                 console.error(e);
-                return false; // Depending on your requirements, you might want to handle this differently.
+                throw new Error('Internal server error');
             }
         });
     }
