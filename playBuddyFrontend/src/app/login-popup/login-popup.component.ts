@@ -12,4 +12,8 @@ export class LoginPopupComponent {
   goBack(){
     this.router.navigate(['']);
   }
+
+  authGoogle(){
+    window.location.href = 'http://localhost:8080/auth/google';
+  }
 }

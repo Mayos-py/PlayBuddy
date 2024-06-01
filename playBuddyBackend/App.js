@@ -77,7 +77,7 @@ class App {
                 if (!this.User.retrieveUser(jsonObj.ssoID))
                     yield this.User.model.create([jsonObj]);
                 //res.send('Player Request Created for ' +jsonObj.userName);
-                res.redirect('/#/');
+                res.redirect('/#/popup');
             }
             catch (e) {
                 console.error(e);
