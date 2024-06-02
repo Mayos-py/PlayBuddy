@@ -7,6 +7,7 @@ import { InformationHubComponent } from './information-hub/information-hub.compo
 import { PlayerRequestComponent } from './player-request/player-request.component';
 import { AddRequestComponent } from './add-request/add-request.component';
 import { LoginPopupComponent } from './login-popup/login-popup.component';
+import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
 
 const routes: Routes = [
   { path: '', component:  WelcompageComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'hub', component: InformationHubComponent},
   { path: 'player-request', component: PlayerRequestComponent},
   { path: 'add-request', component: AddRequestComponent},
-  { path: 'login', component: LoginPopupComponent}
+  { path: 'login', component: LoginPopupComponent},
+  { path: 'profile', component: ProfilePopupComponent}
   
 ];
 

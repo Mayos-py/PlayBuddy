@@ -24,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InformationHubComponent } from './information-hub/information-hub.component';
 import { AddRequestComponent } from './add-request/add-request.component';
 import { LoginPopupComponent } from './login-popup/login-popup.component';
+import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { LoginPopupComponent } from './login-popup/login-popup.component';
     InformationHubComponent,
     PlayerRequestComponent,
     AddRequestComponent,
-    LoginPopupComponent
+    LoginPopupComponent,
+    ProfilePopupComponent
   ],
   imports: [
     BrowserModule,
