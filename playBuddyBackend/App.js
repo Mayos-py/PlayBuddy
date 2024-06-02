@@ -61,7 +61,7 @@ class App {
     routes() {
         let router = express.Router();
         let response;
-        router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+        router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
         console.log("api hit");
         router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -69,8 +69,10 @@ class App {
                 if (!found) {
                     var jsonObj = {
                         ssoID: req.user.id,
-                        username: req.user.displayName
+                        username: req.user.displayName,
+                        email: req.user.emails[0].value
                     };
+                    console.log("User not found, creating user with email: ", req.user.emails[0].value);
                     yield this.User.model.create([jsonObj]);
                 }
                 res.redirect('/#/popup');

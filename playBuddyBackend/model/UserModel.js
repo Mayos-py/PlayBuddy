@@ -20,7 +20,8 @@ class UserModel {
     createSchema() {
         this.schema = new Mongoose.Schema({
             ssoID: { type: String, required: true, unique: true },
-            username: String
+            username: String,
+            email: String
         }, { collection: 'user' });
     }
     createModel() {

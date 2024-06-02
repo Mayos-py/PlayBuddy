@@ -15,6 +15,7 @@ declare global {
     interface User {
       id: string,
       displayName: string,
+      email: string
     }
   }
 }
@@ -73,7 +74,7 @@ class App {
     let response ;
 
     router.get('/auth/google', 
-    passport.authenticate('google', {scope: ['profile']}));
+    passport.authenticate('google', {scope: ['profile', 'email']}));
     console.log("api hit");
 
     router.get('/auth/google/callback', 
@@ -86,8 +87,10 @@ class App {
           if(!found){
             var jsonObj = {
               ssoID: req.user.id,
-              username: req.user.displayName
+              username: req.user.displayName,
+              email: req.user.emails[0].value
             };
+            console.log("User not found, creating user with email: ",req.user.emails[0].value);
             await this.User.model.create([jsonObj]);
           }
           res.redirect('/#/popup');

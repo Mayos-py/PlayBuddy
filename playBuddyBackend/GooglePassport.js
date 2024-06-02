@@ -22,9 +22,8 @@ class GooglePassport {
                 console.log("userId:" + profile.id);
                 console.log("displayName: " + profile.displayName);
                 console.log("retrieve all of the profile info needed");
-                //console.log("emailll,"+profile.email);
-                //this.email = profile.emails[0].value;
-                return done(null, profile);
+                console.log("value of email: ", profile.emails[0].value);
+                return done(null, profile, profile.emails);
             });
         }));
         passport.serializeUser(function (user, done) {

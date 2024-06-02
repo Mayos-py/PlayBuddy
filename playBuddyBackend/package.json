@@ -8,6 +8,7 @@
     "@types/node": "^20.11.5",
     "assert": "*",
     "async": "^2.6.4",
+    "axios": "^1.7.2",
     "body-parser": "^1.20.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
