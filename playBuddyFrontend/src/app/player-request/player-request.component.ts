@@ -17,7 +17,7 @@ export class PlayerRequestComponent implements OnInit {
   ownRequestsDataSource = new MatTableDataSource<any>();
   zipCode: number | null = null;
   sportName: string | null = null;
-  userName: string | null = 'currentUser';  // Replace with actual logic to get the current user's username
+  currentUser: any; // Variable to store current user info
   subscriptions = new Subscription();
 
   constructor(
@@ -31,10 +31,13 @@ export class PlayerRequestComponent implements OnInit {
       this.zipCode = state['zipCode'] ? Number(state['zipCode']) : null;
       this.sportName = state['sportName'];
       
+      // Fetch current user info
+      this.fetchCurrentUser();
+
       this.subscriptions.add(
         this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
-          const otherRequests = result.filter(request => request.userName !== this.userName);
-          const ownRequests = result.filter(request => request.userName === this.userName);
+          const otherRequests = result.filter(request => request.userName !== this.currentUser.username);
+          const ownRequests = result.filter(request => request.userName === this.currentUser.username);
           this.otherRequestsDataSource = new MatTableDataSource<any>(otherRequests);
           this.ownRequestsDataSource = new MatTableDataSource<any>(ownRequests);
           console.log('Retrieved data from server.');
@@ -67,13 +70,19 @@ export class PlayerRequestComponent implements OnInit {
   }
 
   joinRequest(request: any) {
-    // join functionality here
-    // After joining, update the button to "Chat"
-    request.joined = true;
+    // Increment the number of players joined
+    request.joined++;
   }
 
   startChat(request: any) {
     // navigate to chat page with request details
     console.log('Starting chat with:', request.userName);
+  }
+
+  fetchCurrentUser() {
+    // Call the service method to fetch current user info
+    this.proxy$.getUserInfo().subscribe((user) => {
+      this.currentUser = user;
+    });
   }
 }

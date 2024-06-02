@@ -2,9 +2,9 @@
     <h2 class="heading">Player Request Form</h2>
     <form (ngSubmit)="submitForm(playerRequestForm.value)" #playerRequestForm="ngForm">
 
-        <div class = "form-group">
+        <div class="form-group">
             <label for="userName">Username</label>
-            <input type="text" id="userName" name="userName" class="form-control" required ngModel>
+            <input type="text" id="userName" name="userName" class="form-control" required [ngModel]="currentUser?.username" readonly>
         </div>
 
         <div class = "form-group">
@@ -23,18 +23,18 @@
         </div>
     
         <div class = "form-group">
-        <label for="date">Date</label>
-        <input type="date" id="futureDate" name="date" class="form-control" [min]="minDate" required ngModel>
+            <label for="date">Date</label>
+            <input type="date" id="futureDate" name="date" class="form-control" [min]="minDate" required ngModel>
         </div>
     
         <div class = "form-group">
-        <label for="time">Time</label>
-        <input type="time" id="time" name="time" class="form-control" required ngModel>
+            <label for="time">Time</label>
+            <input type="time" id="time" name="time" class="form-control" required ngModel>
         </div>
     
         <div class = "form-group">
-        <label for="preferredCourt">Preferred Court</label>
-        <input type="text" id="preferredCourt" name="preferredCourt" class="form-control" required ngModel>
+            <label for="preferredCourt">Preferred Court</label>
+            <input type="text" id="preferredCourt" name="preferredCourt" class="form-control" required ngModel>
         </div>
     
         <button type="submit" class="btn btn-primary">Submit</button>&nbsp; 

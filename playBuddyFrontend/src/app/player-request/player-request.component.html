@@ -26,82 +26,90 @@
 <div class="container mat-app-background">
   <h3 class="panel-heading">Player Requests</h3>
 
-  <div class="panel panel-default panel-container">
+  <!-- Other Player Requests -->
+  <div class="panel panel-default">
     <h4>Other Player Requests</h4>
-    <div class="table-container">
-      <table mat-table [dataSource]="otherRequestsDataSource" matSort class="mat-elevation-z8">
-        <!-- Columns definitions -->
-        <ng-container matColumnDef="userName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
-          <td mat-cell *matCellDef="let request"> {{ request.userName }} </td>
-        </ng-container>
-        <ng-container matColumnDef="playerNeeded">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Needed</th>
-          <td mat-cell *matCellDef="let request"> {{ request.playerNeeded }} </td>
-        </ng-container>
-        <ng-container matColumnDef="joined">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Joined</th>
-          <td mat-cell *matCellDef="let request"> {{ request.joined }} </td>
-        </ng-container>
-        <ng-container matColumnDef="preferredCourt">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Court</th>
-          <td mat-cell *matCellDef="let request"> {{ request.preferredCourt }} </td>
-        </ng-container>
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-          <td mat-cell *matCellDef="let request"> {{ request.date }} </td>
-        </ng-container>
-        <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
-          <td mat-cell *matCellDef="let request"> {{ request.time }} </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-          <td mat-cell *matCellDef="let request" class="mat-column-action">
-            <button class="join-button" *ngIf="!request.joined" (click)="joinRequest(request)">Join</button>
-            <button class="chat-button" *ngIf="request.joined" (click)="startChat(request)">Chat</button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="otherDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let request; columns: otherDisplayedColumns;"></tr>
-      </table>
+    <div class="panel-container">
+      <div class="table-container">
+        <table mat-table [dataSource]="otherRequestsDataSource" matSort class="mat-elevation-z8">
+          <!-- Columns definitions -->
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+            <td mat-cell *matCellDef="let request"> {{ request.userName }} </td>
+          </ng-container>
+          <ng-container matColumnDef="playerNeeded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Needed</th>
+            <td mat-cell *matCellDef="let request"> {{ request.playerNeeded }} </td>
+          </ng-container>
+          <ng-container matColumnDef="joined">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Joined</th>
+            <td mat-cell *matCellDef="let request"> {{ request.joined }} </td>
+          </ng-container>
+          <ng-container matColumnDef="preferredCourt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Court</th>
+            <td mat-cell *matCellDef="let request"> {{ request.preferredCourt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <td mat-cell *matCellDef="let request"> {{ request.date }} </td>
+          </ng-container>
+          <ng-container matColumnDef="time">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+            <td mat-cell *matCellDef="let request"> {{ request.time }} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+            <td mat-cell *matCellDef="let request" class="mat-column-action">
+              <button class="join-button" *ngIf="!request.joined" (click)="joinRequest(request)">Join</button>
+              <button class="joined-button" *ngIf="request.joined" disabled>Joined</button>
+              <button class="chat-button" *ngIf="request.joined" (click)="startChat(request)">Chat</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="otherDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let request; columns: otherDisplayedColumns;"></tr>
+        </table>
+      </div>
     </div>
   </div>
 
-  <div class="panel panel-default panel-container">
+  <div class="container-margin"></div>
+
+  <div class="panel panel-default">
     <h4>My Requests</h4>
-    <div class="table-container">
-      <table mat-table [dataSource]="ownRequestsDataSource" matSort class="mat-elevation-z8">
-        <!-- Columns definitions -->
-        <ng-container matColumnDef="playerNeeded">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Needed</th>
-          <td mat-cell *matCellDef="let request"> {{ request.playerNeeded }} </td>
-        </ng-container>
-        <ng-container matColumnDef="joined">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Joined</th>
-          <td mat-cell *matCellDef="let request"> {{ request.joined }} </td>
-        </ng-container>
-        <ng-container matColumnDef="preferredCourt">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Court</th>
-          <td mat-cell *matCellDef="let request"> {{ request.preferredCourt }} </td>
-        </ng-container>
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-          <td mat-cell *matCellDef="let request"> {{ request.date }} </td>
-        </ng-container>
-        <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
-          <td mat-cell *matCellDef="let request"> {{ request.time }} </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-          <td mat-cell *matCellDef="let request" class="mat-column-action">
-            <button class="chat-button" (click)="startChat(request)">Chat</button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="myDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let request; columns: myDisplayedColumns;"></tr>
-      </table>
+    <div class="panel-container">
+      <div class="table-container">
+        <table mat-table [dataSource]="ownRequestsDataSource" matSort class="mat-elevation-z8">
+          <!-- Columns definitions -->
+          <ng-container matColumnDef="playerNeeded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Needed</th>
+            <td mat-cell *matCellDef="let request"> {{ request.playerNeeded }} </td>
+          </ng-container>
+          <ng-container matColumnDef="joined">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Players Joined</th>
+            <td mat-cell *matCellDef="let request"> {{ request.joined }} </td>
+          </ng-container>
+          <ng-container matColumnDef="preferredCourt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Court</th>
+            <td mat-cell *matCellDef="let request"> {{ request.preferredCourt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <td mat-cell *matCellDef="let request"> {{ request.date }} </td>
+          </ng-container>
+          <ng-container matColumnDef="time">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+            <td mat-cell *matCellDef="let request"> {{ request.time }} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+            <td mat-cell *matCellDef="let request" class="mat-column-action">
+              <button class="chat-button" (click)="startChat(request)">Chat</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="myDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let request; columns: myDisplayedColumns;"></tr>
+        </table>
+      </div>
     </div>
   </div>
 

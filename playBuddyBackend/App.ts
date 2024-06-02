@@ -162,7 +162,7 @@ class App {
       console.log('validate', this.validateAuth);
       await this.Club.retrieveFilteredClubs(res, zipCode, sportName)
   });
-    
+
     this.expressApp.use('/', router);
     this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
     this.expressApp.use('/images', express.static(__dirname+'/img'));

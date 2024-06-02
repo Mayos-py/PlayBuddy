@@ -56,14 +56,12 @@ th {
 td {
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
-  vertical-align: middle; 
+  vertical-align: middle;
 }
-
 
 button {
   margin-top: 1rem;
 }
-
 
 .join-button {
   background-color: green;
@@ -72,11 +70,49 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 8px; /* Added margin to the right */
 }
 
 .join-button:hover {
   background-color: darkgreen;
 }
+
+.joined-button {
+  background-color: grey;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  margin-right: 8px; /* Added margin to the right */
+}
+
+.chat-button {
+  background-color: blue;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-button:hover {
+  background-color: darkblue;
+}
+
 .panel-container {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
+}
+
+.join-button {
+  margin-right: 8px;
+}
+
+
+.chat-button {
+  margin-right: 8px;
+}
+
+.container-margin {
+  margin-top: 20px;
 }
