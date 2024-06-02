@@ -8,8 +8,30 @@ import { Router , ActivatedRoute, NavigationExtras} from '@angular/router';
   styleUrl: './profile-popup.component.css'
 })
 export class ProfilePopupComponent {
-  constructor(private router: Router){}
+
+  userName: string | null = null;
+  email: string | null = null;
+  zipCode: number | null = null;
+  sportName: string | null = null;
+ 
+  constructor(private router: Router){
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      const state = navigation.extras.state as { [key: string]: any };
+      this.userName = state['userName']
+      this.email = state['email'];
+      this.zipCode = state['zipCode']
+      this.sportName = state['sportName'];
+
+    }
+  }
   goBack(){
-    this.router.navigate(['']);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        zipCode: this.zipCode,
+        sportName: this.sportName
+      }
+    };
+    this.router.navigate(['/player-request'], navigationExtras);
   }
 }

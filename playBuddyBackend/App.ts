@@ -108,7 +108,7 @@ class App {
 
     router.get('/app/user/info', (req, res) => {
       if(req.user){
-        res.json({"username" : req.user.displayName, "id" : req.user.id});
+        res.json({"username" : req.user.displayName, "id" : req.user.id, "email": req.user.emails[0].value});
       }else{
         res.json({ "error": "No user information available" });
       }

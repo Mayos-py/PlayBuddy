@@ -16,11 +16,6 @@ export class WelcompageComponent {
     });
   }
 
-  navigateToProfilePopup() {
-    this.router.navigate(['/profile']);
-  }
-
-
   navigateToLoginPopup() {
     this.proxyService.getUserInfo().subscribe({
       next: (data) => {

@@ -36,8 +36,8 @@ export class PlayerRequestComponent implements OnInit {
 
       this.subscriptions.add(
         this.proxy$.getFilteredPlayerRequests(this.zipCode, this.sportName).subscribe((result: any[]) => {
-          const otherRequests = result.filter(request => request.userName !== this.currentUser.username);
-          const ownRequests = result.filter(request => request.userName === this.currentUser.username);
+          const otherRequests = result.filter(request => request.ssoID !== this.currentUser.id);
+          const ownRequests = result.filter(request => request.ssoID === this.currentUser.id);
           this.otherRequestsDataSource = new MatTableDataSource<any>(otherRequests);
           this.ownRequestsDataSource = new MatTableDataSource<any>(ownRequests);
           console.log('Retrieved data from server.');
@@ -67,6 +67,18 @@ export class PlayerRequestComponent implements OnInit {
       }
     };
     this.router.navigate(['/add-request'], navigationExtras);
+  }
+
+  navigateToProfilePopup() {
+    const navigationExtras: NavigationExtras = {
+      state: {
+       userName: this.currentUser.username,
+       email: this.currentUser.email,
+       zipCode: this.zipCode,
+       sportName: this.sportName
+      }
+    };
+    this.router.navigate(['/profile'], navigationExtras);
   }
 
   joinRequest(request: any) {
