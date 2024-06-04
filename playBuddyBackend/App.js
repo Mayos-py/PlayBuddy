@@ -17,19 +17,11 @@ const HubModel_1 = require("./model/HubModel");
 const RequestModel_1 = require("./model/RequestModel");
 const ClubModel_1 = require("./model/ClubModel");
 const UserModel_1 = require("./model/UserModel");
+const UserGroupModel_1 = require("./model/UserGroupModel");
 const GooglePassport_1 = require("./GooglePassport");
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const mockAuthMiddleware = (req, res, next) => {
-    req.isAuthenticated = () => true;
-    req.user = {
-        id: 'test-user-id',
-        displayName: 'Test User',
-        email: 'test@example.com'
-    };
-    next();
-};
 class App {
     constructor(mongoDBConnection) {
         this.googlePassportObj = new GooglePassport_1.default();
@@ -40,6 +32,7 @@ class App {
         this.Requests = new RequestModel_1.RequestModel(mongoDBConnection);
         this.Club = new ClubModel_1.ClubModel(mongoDBConnection);
         this.User = new UserModel_1.UserModel(mongoDBConnection);
+        this.UserGroup = new UserGroupModel_1.UserGroupModel(mongoDBConnection);
     }
     middleware() {
         this.expressApp.use(bodyParser.json());
@@ -53,11 +46,11 @@ class App {
         this.expressApp.use(cookieParser());
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
-        if (process.env.NODE_ENV === 'test') {
-            this.expressApp.use(mockAuthMiddleware);
-        }
     }
     validateAuth(req, res, next) {
+        if (process.env.NODE_ENV === 'test') {
+            req.isAuthenticated = () => true;
+        }
         if (req.isAuthenticated()) {
             console.log("user is authenticated");
             console.log(JSON.stringify(req.user));
@@ -118,6 +111,12 @@ class App {
             console.log('Query single playerrequest with id: ' + id);
             yield this.Requests.retrieveRequestById(res, id);
         }));
+        router.get('/app/usergroup/:reqId', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var id = req.params.reqId;
+            yield this.UserGroup.retrieveUserGroupById(res, id);
+            console.log('Query userGroup with id: ' + id);
+            console.log('Query user group data');
+        }));
         //POST Adding a Request API endpoint
         router.post('/app/playerrequest/', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = crypto.randomBytes(16).toString("hex");
@@ -125,9 +124,16 @@ class App {
             var jsonObj = req.body;
             jsonObj.reqId = id;
             jsonObj.ssoID = req.user.id;
+            var userObject = {
+                reqId: jsonObj.reqId,
+                users: [{
+                        ssoId: jsonObj.ssoID,
+                        userName: jsonObj.userName
+                    }]
+            };
             try {
                 yield this.Requests.model.create([jsonObj]);
-                //res.send('Player Request Created for ' +jsonObj.userName);
+                yield this.UserGroup.model.create([userObject]);
                 res.send(jsonObj);
             }
             catch (e) {

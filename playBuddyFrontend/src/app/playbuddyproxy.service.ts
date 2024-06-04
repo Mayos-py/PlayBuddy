@@ -26,6 +26,18 @@ export class PlaybuddyproxyService {
   getUserInfo(){
     return this.httpClient.get<any>(this.hostUrl + `app/user/info`);
   }
+
+  addUserInGroup(userData: JSON, reqId: string | null ){
+    return this.httpClient.post<any[]>(this.hostUrl + `/app/usergroup/${reqId}/user`, userData);
+  }
+
+  deleteUserFromGroup(reqId: string | null, ssoID: string | null){
+    return this.httpClient.get<any[]>( this.hostUrl + `/app/usergroup/${reqId}/user/${ssoID}`);
+  }
+
+  getUserGroupInfo(reqId: string | null){
+    return this.httpClient.get<any>(this.hostUrl + `/app/usergroup/${reqId}`);
+  }
   
 
 }

@@ -17,7 +17,8 @@ export class PlayerRequestComponent implements OnInit {
   ownRequestsDataSource = new MatTableDataSource<any>();
   zipCode: number | null = null;
   sportName: string | null = null;
-  currentUser: any; // Variable to store current user info
+  reqId: string | null = null;
+  currentUser: any; 
   subscriptions = new Subscription();
 
   constructor(
@@ -84,6 +85,11 @@ export class PlayerRequestComponent implements OnInit {
   joinRequest(request: any) {
     // Increment the number of players joined
     request.joined++;
+    var userJSON ={
+      ssoId: this.currentUser.id,
+      userName: this.currentUser.username
+    }
+    //this.proxy$.addUserInGroup(userJSON, )
   }
 
   startChat(request: any) {

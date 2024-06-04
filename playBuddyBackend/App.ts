@@ -5,6 +5,7 @@ import { HubModel } from './model/HubModel';
 import { RequestModel } from './model/RequestModel';
 import { ClubModel } from './model/ClubModel';
 import { UserModel } from './model/UserModel';
+import { UserGroupModel } from './model/UserGroupModel';
 import GooglePassportObj from './GooglePassport';
 import * as passport from 'passport';
 import * as session from 'express-session';
@@ -20,22 +21,13 @@ declare global {
   }
 }
 
-const mockAuthMiddleware = (req, res, next) => {
-  req.isAuthenticated = () => true;
-  req.user = {
-    id: 'test-user-id',
-    displayName: 'Test User',
-    email: 'test@example.com'
-  };
-  next();
-};
-
 class App {
   public expressApp: express.Application;
   public Hub:HubModel;
   public Requests:RequestModel;
   public Club:ClubModel;
   public User:UserModel;
+  public UserGroup:UserGroupModel;
   public googlePassportObj:GooglePassportObj;
   
   constructor(mongoDBConnection:string)
@@ -48,6 +40,7 @@ class App {
     this.Requests = new RequestModel(mongoDBConnection);
     this.Club = new ClubModel(mongoDBConnection);
     this.User = new UserModel(mongoDBConnection);
+    this.UserGroup = new UserGroupModel(mongoDBConnection);
   }
 
   private middleware(): void {
@@ -63,12 +56,12 @@ class App {
     this.expressApp.use(passport.initialize());
     this.expressApp.use(passport.session());
 
-    if (process.env.NODE_ENV === 'test') {
-      this.expressApp.use(mockAuthMiddleware);
-    }
   }
 
   private validateAuth(req, res, next):void {
+    if (process.env.NODE_ENV === 'test') {
+      req.isAuthenticated = () => true;
+    }
     if (req.isAuthenticated()) { 
       console.log("user is authenticated"); 
       console.log(JSON.stringify(req.user));
@@ -139,6 +132,40 @@ class App {
       console.log('Query single playerrequest with id: ' + id);
       await this.Requests.retrieveRequestById(res, id);
     });
+
+    router.get('/app/usergroup/:reqId', this.validateAuth, async (req, res) =>{
+      var id = req.params.reqId
+      await this.UserGroup.retrieveUserGroupById(res, id)
+      console.log('Query userGroup with id: ' + id);
+      console.log('Query user group data');
+    });
+
+    router.delete('/app/usergroup/:reqId/user/:ssoId', this.validateAuth, async (req, res) => {
+      const { reqId, ssoId } = req.params;
+      console.log('Delete user with ssoId: ' + ssoId + ' from request group with reqId: ' + reqId);
+      try {
+        await this.UserGroup.deleteUserById(reqId, ssoId);
+        res.status(200).send({ message: 'User deleted successfully' });
+      } catch (e) {
+        console.error(e);
+        res.status(500).send({ message: 'Failed to delete user' });
+      }
+    });
+
+    router.post('/app/usergroup/:reqId/user', this.validateAuth, async (req, res) => {
+      const { reqId } = req.params;
+      const user = req.body;
+      console.log('Add user with ssoId: ' + user.ssoId + ' to request group with reqId: ' + reqId);
+      try {
+        await this.UserGroup.addUserToGroup(reqId, user);
+        res.status(200).send({ message: 'User added successfully' });
+      } catch (e) {
+        console.error(e);
+        res.status(500).send({ message: 'Failed to add user' });
+      }
+    });
+
+
     //POST Adding a Request API endpoint
     router.post('/app/playerrequest/', this.validateAuth, async (req, res) => {
       const id = crypto.randomBytes(16).toString("hex");
@@ -146,9 +173,16 @@ class App {
         var jsonObj = req.body;
         jsonObj.reqId = id;
         jsonObj.ssoID = req.user.id;
+        var userObject = {
+          reqId: jsonObj.reqId,
+          users: [{
+              ssoId: jsonObj.ssoID,
+              userName: jsonObj.userName
+            }]
+          }
         try {
           await this.Requests.model.create([jsonObj]);
-          //res.send('Player Request Created for ' +jsonObj.userName);
+          await this.UserGroup.model.create([userObject]);
           res.send(jsonObj);
         }
         catch (e) {
