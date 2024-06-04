@@ -102,6 +102,16 @@ class RequestModel {
             }
         });
     }
+    deleteRequestById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.model.deleteOne({ reqId: id }).exec();
+            }
+            catch (err) {
+                throw new Error('Failed to delete request: ' + err.message);
+            }
+        });
+    }
 }
 exports.RequestModel = RequestModel;
 //# sourceMappingURL=RequestModel.js.map

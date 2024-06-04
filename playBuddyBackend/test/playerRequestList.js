@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 
@@ -12,7 +13,7 @@ describe('Test Request list result', function () {
 	var response;
 		 
     before(function (done) {
-        chai.request("http://localhost:8080")
+        chai.request("https://play-buddies.azurewebsites.net")
 			.get("/app/playerrequest")
 			.end(function (err, res) {
 				requestResult = res.body;

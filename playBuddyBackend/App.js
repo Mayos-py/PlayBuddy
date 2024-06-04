@@ -21,9 +21,16 @@ const GooglePassport_1 = require("./GooglePassport");
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-// Creates and configures an ExpressJS web server.
+const mockAuthMiddleware = (req, res, next) => {
+    req.isAuthenticated = () => true;
+    req.user = {
+        id: 'test-user-id',
+        displayName: 'Test User',
+        email: 'test@example.com'
+    };
+    next();
+};
 class App {
-    //Run configuration methods on the Express instance.
     constructor(mongoDBConnection) {
         this.googlePassportObj = new GooglePassport_1.default();
         this.expressApp = express();
@@ -34,7 +41,6 @@ class App {
         this.Club = new ClubModel_1.ClubModel(mongoDBConnection);
         this.User = new UserModel_1.UserModel(mongoDBConnection);
     }
-    // Configure Express middleware.
     middleware() {
         this.expressApp.use(bodyParser.json());
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
@@ -47,6 +53,9 @@ class App {
         this.expressApp.use(cookieParser());
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
+        if (process.env.NODE_ENV === 'test') {
+            this.expressApp.use(mockAuthMiddleware);
+        }
     }
     validateAuth(req, res, next) {
         if (req.isAuthenticated()) {
@@ -57,7 +66,6 @@ class App {
         console.log("user is not authenticated");
         res.redirect('/');
     }
-    // Configure API endpoints.
     routes() {
         let router = express.Router();
         let response;
@@ -140,6 +148,18 @@ class App {
             console.log('Query clubs with sportsName and zipcode: ' + sportName);
             console.log('validate', this.validateAuth);
             yield this.Club.retrieveFilteredClubs(res, zipCode, sportName);
+        }));
+        router.delete('/app/playerrequest/:reqId', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.reqId;
+            console.log('Delete player request with id: ' + id);
+            try {
+                yield this.Requests.deleteRequestById(id);
+                res.status(200).send({ message: 'Request deleted successfully' });
+            }
+            catch (e) {
+                console.error(e);
+                res.status(500).send({ message: 'Failed to delete request' });
+            }
         }));
         this.expressApp.use('/', router);
         this.expressApp.use('/app/json/', express.static(__dirname + '/app/json'));

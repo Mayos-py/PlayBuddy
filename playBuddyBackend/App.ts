@@ -20,9 +20,17 @@ declare global {
   }
 }
 
-// Creates and configures an ExpressJS web server.
+const mockAuthMiddleware = (req, res, next) => {
+  req.isAuthenticated = () => true;
+  req.user = {
+    id: 'test-user-id',
+    displayName: 'Test User',
+    email: 'test@example.com'
+  };
+  next();
+};
+
 class App {
-  // ref to Express instance
   public expressApp: express.Application;
   public Hub:HubModel;
   public Requests:RequestModel;
@@ -30,8 +38,6 @@ class App {
   public User:UserModel;
   public googlePassportObj:GooglePassportObj;
   
-
-  //Run configuration methods on the Express instance.
   constructor(mongoDBConnection:string)
   {
     this.googlePassportObj = new GooglePassportObj();
@@ -44,7 +50,6 @@ class App {
     this.User = new UserModel(mongoDBConnection);
   }
 
-  // Configure Express middleware.
   private middleware(): void {
     this.expressApp.use(bodyParser.json());
     this.expressApp.use(bodyParser.urlencoded({ extended: false }));
@@ -57,6 +62,10 @@ class App {
     this.expressApp.use(cookieParser());
     this.expressApp.use(passport.initialize());
     this.expressApp.use(passport.session());
+
+    if (process.env.NODE_ENV === 'test') {
+      this.expressApp.use(mockAuthMiddleware);
+    }
   }
 
   private validateAuth(req, res, next):void {
@@ -68,7 +77,6 @@ class App {
     res.redirect('/');
   }
 
-  // Configure API endpoints.
   private routes(): void {
     let router = express.Router();
     let response ;
@@ -155,12 +163,24 @@ class App {
     await this.Requests.retrieveRequestsByZipcodeAndSport(res, parseInt(zipcode), sportName);
   });
   //   Get Request to get all the club list based on zip code and sport
-    router.get('/app/club/zipcode/:zipCode/sport/:sportName', async (req, res) =>{
+  router.get('/app/club/zipcode/:zipCode/sport/:sportName', async (req, res) =>{
       var zipCode = req.params.zipCode
       var sportName = req.params.sportName
       console.log('Query clubs with sportsName and zipcode: ' + sportName);
       console.log('validate', this.validateAuth);
       await this.Club.retrieveFilteredClubs(res, zipCode, sportName)
+  });
+
+  router.delete('/app/playerrequest/:reqId', this.validateAuth, async (req, res) => {
+    const id = req.params.reqId;
+    console.log('Delete player request with id: ' + id);
+    try {
+      await this.Requests.deleteRequestById(id);
+      res.status(200).send({ message: 'Request deleted successfully' });
+    } catch (e) {
+      console.error(e);
+      res.status(500).send({ message: 'Failed to delete request' });
+    }
   });
 
     this.expressApp.use('/', router);

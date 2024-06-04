@@ -89,6 +89,14 @@ class RequestModel {
             console.error(e);
         }
     }
+
+    public async deleteRequestById(id: string){
+        try {
+          await this.model.deleteOne({ reqId: id }).exec();
+        } catch (err) {
+          throw new Error('Failed to delete request: ' + err.message);
+        }
+      }
  
     // public async retrieveRequestsCount(response: any) {
     //     console.log("Retrieving request count...");
