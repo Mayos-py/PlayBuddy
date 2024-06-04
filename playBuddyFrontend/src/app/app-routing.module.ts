@@ -8,6 +8,7 @@ import { PlayerRequestComponent } from './player-request/player-request.componen
 import { AddRequestComponent } from './add-request/add-request.component';
 import { LoginPopupComponent } from './login-popup/login-popup.component';
 import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 
 const routes: Routes = [
   { path: '', component:  WelcompageComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'player-request', component: PlayerRequestComponent},
   { path: 'add-request', component: AddRequestComponent},
   { path: 'login', component: LoginPopupComponent},
-  { path: 'profile', component: ProfilePopupComponent}
+  { path: 'profile', component: ProfilePopupComponent},
+  { path: 'user-group', component: UserGroupComponent}
   
 ];
 

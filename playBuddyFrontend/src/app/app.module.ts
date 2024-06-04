@@ -25,6 +25,7 @@ import { InformationHubComponent } from './information-hub/information-hub.compo
 import { AddRequestComponent } from './add-request/add-request.component';
 import { LoginPopupComponent } from './login-popup/login-popup.component';
 import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
     PlayerRequestComponent,
     AddRequestComponent,
     LoginPopupComponent,
-    ProfilePopupComponent
+    ProfilePopupComponent,
+    UserGroupComponent
   ],
   imports: [
     BrowserModule,

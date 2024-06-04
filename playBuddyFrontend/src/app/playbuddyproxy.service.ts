@@ -27,16 +27,16 @@ export class PlaybuddyproxyService {
     return this.httpClient.get<any>(this.hostUrl + `app/user/info`);
   }
 
-  addUserInGroup(userData: JSON, reqId: string | null ){
-    return this.httpClient.post<any[]>(this.hostUrl + `/app/usergroup/${reqId}/user`, userData);
+  addUserInGroup(userData: string, reqId: string | null ){
+    return this.httpClient.post<any[]>(this.hostUrl + `app/usergroup/${reqId}/user`, JSON.parse(userData));
   }
 
   deleteUserFromGroup(reqId: string | null, ssoID: string | null){
-    return this.httpClient.get<any[]>( this.hostUrl + `/app/usergroup/${reqId}/user/${ssoID}`);
+    return this.httpClient.get<any[]>( this.hostUrl + `app/usergroup/${reqId}/user/${ssoID}`);
   }
 
   getUserGroupInfo(reqId: string | null){
-    return this.httpClient.get<any>(this.hostUrl + `/app/usergroup/${reqId}`);
+    return this.httpClient.get<any[]>(this.hostUrl + `app/usergroup/${reqId}`);
   }
   
 

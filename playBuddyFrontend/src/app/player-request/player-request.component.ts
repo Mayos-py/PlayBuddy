@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlaybuddyproxyService } from '../playbuddyproxy.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
@@ -9,10 +9,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './player-request.component.html',
   styleUrls: ['./player-request.component.css']
 })
-export class PlayerRequestComponent implements OnInit {
-
+export class PlayerRequestComponent implements OnInit, OnDestroy {
   otherDisplayedColumns: string[] = ['userName', 'playerNeeded', 'joined', 'preferredCourt', 'date', 'time', 'action'];
-  myDisplayedColumns: string[] = ['playerNeeded', 'joined', 'preferredCourt', 'date', 'time', 'action'];
+  myDisplayedColumns: string[] = ['playerNeeded', 'preferredCourt', 'date', 'time', 'action'];
   otherRequestsDataSource = new MatTableDataSource<any>();
   ownRequestsDataSource = new MatTableDataSource<any>();
   zipCode: number | null = null;
@@ -50,6 +49,10 @@ export class PlayerRequestComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   clickEvent(): void {
     this.router.navigate(['']);
   }
@@ -85,17 +88,32 @@ export class PlayerRequestComponent implements OnInit {
   joinRequest(request: any) {
     // Increment the number of players joined
     request.joined++;
-    var userJSON ={
+    var userJSON = JSON.stringify({
       ssoId: this.currentUser.id,
       userName: this.currentUser.username
-    }
-    //this.proxy$.addUserInGroup(userJSON, )
+    });
+    this.proxy$.addUserInGroup(userJSON, request.reqId).subscribe(() => {
+      console.log('User added to group');
+    }, (error) => {
+      console.error('Failed to add user to group:', error);
+    });
   }
 
   startChat(request: any) {
-    // navigate to chat page with request details
     console.log('Starting chat with:', request.userName);
+    console.log('Starting chat with:', request.reqId);
+
+    // Navigate to the user-group component passing the request ID
+    const navigationExtras: NavigationExtras = {
+      state: {
+        reqId: request.reqId,
+        sportName: this.sportName,
+        zipCode: this.zipCode
+      }
+    };
+    this.router.navigate(['/user-group'],  navigationExtras);
   }
+
 
   fetchCurrentUser() {
     // Call the service method to fetch current user info
