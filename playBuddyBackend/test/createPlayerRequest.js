@@ -17,7 +17,8 @@ describe('Test Create Player Request', function () {
         date: '2024-06-03',
         time: '18:00',
         joined: 0,
-        sportName: 'Soccer'
+        sportName: 'Soccer',
+        ssoID: '123'
     };
 
     var createdRequestId;

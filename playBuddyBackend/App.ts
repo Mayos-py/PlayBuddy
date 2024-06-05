@@ -172,7 +172,9 @@ class App {
       console.log(req.body);
         var jsonObj = req.body;
         jsonObj.reqId = id;
-        jsonObj.ssoID = req.user.id;
+        if(!jsonObj.ssoID){
+          jsonObj.ssoID = req.user.id;
+        }
         var userObject = {
           reqId: jsonObj.reqId,
           users: [{
